@@ -16,8 +16,8 @@ jobs:
         image: alpine:latest
         options: --user root
     steps:
-    - run: sudo apt update 
-    - run: sudo apt install Node.Js npm
+    - run: apt update 
+    - run: apt install Node.Js npm
     - uses: actions/checkout@v3
     - run: npm install
     - run: npm run scss
