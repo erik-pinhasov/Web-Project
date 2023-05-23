@@ -13,7 +13,6 @@ app.use(sessions)
 app.use('/public', express.static(__dirname + '/public'))
 app.use('/users', users)
 
-
 app.get('/', jwt, function (req, res) {
     res.render('ejs/index.ejs')
 })
