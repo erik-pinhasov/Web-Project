@@ -15,9 +15,8 @@ jobs:
     container:
         image: alpine:latest
         options: --user root
-    steps:
-    - run: apt update 
-    - run: apt install Node.Js npm
+    steps: 
+    - run: apk add --update nodejs npm
     - uses: actions/checkout@v3
     - run: npm install
     - run: npm run scss
