@@ -12,10 +12,12 @@ on:
 jobs:
   build-node:
     runs-on: ubuntu-latest
-    container: node:16
+    container:
+        image: alpine:latest
+        options: --user root
     steps:
-    - run: node --version
-    - run: npm --version
+    - run: sudo apt update 
+    - run: sudo apt install Node.Js npm
     - uses: actions/checkout@v3
     - run: npm install
     - run: npm run scss
