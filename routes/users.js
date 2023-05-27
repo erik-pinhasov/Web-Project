@@ -12,7 +12,7 @@ router.get('/', async function (req, res) {
 
 //render login
 router.get('/login', async function (req, res) {
-    res.render('ejs/index.ejs')
+    res.render('ejs/login.ejs')
     //save in req.session.user
 })
 

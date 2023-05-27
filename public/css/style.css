@@ -4,6 +4,7 @@
    * Copyright 2011-2022 Twitter, Inc.
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    */
+@import "https://fonts.googleapis.com/css?family=Raleway:100,300,400|Roboto+Condensed:300,700&display=swap";
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -14626,3 +14627,14 @@ readers do not read off random characters that represent icons */
 .fas,
 .fa-solid {
   font-weight: 900; }
+
+.main-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 35px;
+  text-align: center; }

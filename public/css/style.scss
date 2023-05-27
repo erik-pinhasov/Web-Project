@@ -2,3 +2,16 @@
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
 @import "../../node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "https://fonts.googleapis.com/css?family=Raleway:100,300,400|Roboto+Condensed:300,700&display=swap";
+
+.main-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 400px;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 35px;
+    text-align: center;
+}
