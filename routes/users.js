@@ -11,16 +11,19 @@ router.get('/', async function (req, res) {
 })
 
 //render login
-router.get('/login', async function (req, res) {
-    res.render('ejs/login.ejs')
+router.get('/signin', async function (req, res) {
+    renderSignTabs(res, 'signin', 'signup');
     //save in req.session.user
 })
 
 //render register
-router.get('/register', async function (req, res) {
-    res.render('ejs/index.ejs')
+router.get('/signup', async function (req, res) {
+    renderSignTabs(res, 'signup', 'signin');
 })
 
+function renderSignTabs(res, activeTab, inactiveTab) {
+    res.render(`ejs/sign-tabs.ejs`, { active: activeTab, notactive: inactiveTab })
+}
 //render logout
 router.get('/logout', async function (req, res) {
     req.session.destroy();
