@@ -6,18 +6,22 @@ const router = express.Router()
 
 
 //render register/login
-router.get('/', async function (req, res) {
+router.get('/', function (req, res) {
     res.render('ejs/index.ejs')
 })
 
 //render login
-router.get('/signin', async function (req, res) {
+router.get('/signin', function (req, res) {
     renderSignTabs(res, 'signin', 'signup');
     //save in req.session.user
 })
 
+router.post('/signin', function (req, res) {
+    res.send(req.body)
+})
+
 //render register
-router.get('/signup', async function (req, res) {
+router.get('/signup', function (req, res) {
     renderSignTabs(res, 'signup', 'signin');
 })
 
@@ -25,7 +29,7 @@ function renderSignTabs(res, activeTab, inactiveTab) {
     res.render(`ejs/sign-tabs.ejs`, { active: activeTab, notactive: inactiveTab })
 }
 //render logout
-router.get('/logout', async function (req, res) {
+router.get('/logout', function (req, res) {
     req.session.destroy();
     res.redirect('login')
 })
