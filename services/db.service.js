@@ -1,9 +1,9 @@
-const mysql = require("mysql2");
-const db_config = require("../configs/db.config");
+const mysql = require('mysql2');
+const db_config = require('../configs/db.config');
 
 const pool = mysql.createPool(db_config.options).promise();
 
-/* create user table if not exist*/
+/* create user table if not exist */
 async function create_user_table() {
   try {
     await pool.query(`CREATE TABLE users (
@@ -14,7 +14,7 @@ async function create_user_table() {
     PRIMARY KEY (id)
 );
 `);
-    console.log("Users table succuessfully created.");
+    console.log('Users table succuessfully created.');
   } catch {}
 }
 
@@ -31,14 +31,14 @@ async function create_task_table() {
             FOREIGN KEY (uid) REFERENCES users(id)
         );
 `);
-    console.log("Tasks table succuessfully created.");
+    console.log('Tasks table succuessfully created.');
   } catch {}
 }
 
-/*register users*/
+/* register users */
 async function register(username, password) {
   try {
-    await pool.query("INSERT INTO users (username,password) VALUES (?,?)", [
+    await pool.query('INSERT INTO users (username,password) VALUES (?,?)', [
       username,
       password,
     ]);
@@ -47,18 +47,17 @@ async function register(username, password) {
     return false;
   }
 }
-/*login users*/
+/* login users */
 async function login(usernameOrEmail, password) {
-  var [user] = await pool.query(
-    "SELECT * FROM users WHERE  (username = ? OR email = ?) AND password = ?",
-    [usernameOrEmail, usernameOrEmail, password]
+  const [user] = await pool.query(
+    'SELECT * FROM users WHERE  (username = ? OR email = ?) AND password = ?',
+    [usernameOrEmail, usernameOrEmail, password],
   );
   if (user.length > 0) {
     return user[0];
-  } else {
-    return null;
   }
+  return null;
 }
-create_user_table(); //must come before task
+create_user_table(); // must come before task
 create_task_table();
 module.exports = { register, login, pool };
