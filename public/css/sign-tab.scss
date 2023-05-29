@@ -25,6 +25,14 @@ body{
     background-image: url("../../public/images/signin.png");
     background-size: cover;
 }
+.child.img h1{
+    font-weight: bold;
+    color:white;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 .child.img.right{
     border-top-left-radius:0;
     border-bottom-left-radius:0;
