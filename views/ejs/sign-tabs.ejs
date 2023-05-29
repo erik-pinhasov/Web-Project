@@ -8,7 +8,7 @@
 <body>
     <main>
         <div id="main-container">
-            <div class="child img"></div>
+            <div id="img" class="child img"></div>
             <div class="child content">
                 <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation" onclick="updateUrl('signin')">
@@ -39,23 +39,31 @@
 
 </html>
 <script>
-    var active = '<%= active %>'
-    if (active == 'signup') {
+    var active = '<%= active %>';
+    if (active === 'signup') {
         replace_places(active);
     }
+
     function updateUrl(str) {
-        window.history.pushState(str, str.toUpperCase(), str)
+        window.history.pushState(str, str.toUpperCase(), str);
         replace_places(str);
     }
+
     function replace_places(str) {
-        var main = document.getElementById('main-container')
-        var child1 = main.children[0];
-        var child2 = main.children[1];
-        if ((child1.classList.contains('content') && str === 'signup') ||
-            (child1.classList.contains('img') && str === 'signin')) {
-            return; // No need to swap
+        var main = document.getElementById('main-container');
+        var content = main.querySelector('.content');
+        var img = main.querySelector('.img');
+
+        console.log(str)
+        if (str == "signin") {
+            img.classList.remove('right');
+            main.insertBefore(img, content);
         }
-        main.insertBefore(child2, child1);
+        else {
+            img.classList.add('right');
+            main.insertBefore(content, img);
+        }
+
 
     }
 </script>
