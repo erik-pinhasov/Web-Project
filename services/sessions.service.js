@@ -1,19 +1,17 @@
-const sessions = require('express-session')
-const mysqlStore = require('express-mysql-session')(sessions);
-const { pool } = require('./db.service')
-const db_config = require('../configs/db.config')
+const sessions = require("express-session");
+const mysqlStore = require("express-mysql-session")(sessions);
+const { pool } = require("./db.service");
+const db_config = require("../configs/db.config");
 
-const day = 1000 * 60 ^ 2 * 24;
+const day = 1000 * (60 ^ 3) * 24;
 module.exports = sessions({
-    secret: db_config.jwtToken,
-    name: "sessions",
-    resave: false,
-    saveUninitialized: false,
-    store: new mysqlStore(db_config.options, pool),
-    cookie: {
-        maxAge: day,
-        secure: false,
-        expires: day
-    },
-})
-
+  secret: db_config.jwtToken,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: day,
+    secure: false,
+    expires: day,
+  },
+  store: new mysqlStore(db_config.options, pool),
+});

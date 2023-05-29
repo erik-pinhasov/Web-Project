@@ -14628,6 +14628,13 @@ readers do not read off random characters that represent icons */
 .fa-solid {
   font-weight: 900; }
 
+.nav-item .nav-link.active {
+  background-color: #9494ee;
+  color: white; }
+
+.nav-tabs {
+  border-width: 0; }
+
 .main-container {
   position: absolute;
   left: 50%;

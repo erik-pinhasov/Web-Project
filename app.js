@@ -1,20 +1,26 @@
-const express = require("express"),
-    app = express(),
-    users = require('./routes/users'),
-    sessions = require('./services/sessions.service'),
-    jwt = require('./middlewares/login.middleware')
+/* eslint-disable no-undef */
+const express = require("express");
 
-app.set('view engine', 'ejs')
+const app = express();
+const users = require("./routes/users");
+const sessions = require("./services/sessions.service");
+const jwt = require("./middlewares/login.middleware");
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use(sessions)
+app.set("view engine", "ejs");
 
-app.use('/public', express.static(__dirname + '/public'))
-app.use('/users', users)
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.get('/', jwt, function (req, res) {
-    res.render('ejs/index.ejs')
-})
+app.use("/public", express.static(`${__dirname}/public`));
+app.use(sessions);
+app.use(jwt);
 
-app.listen(3000, () => console.log('server started'))
+app.get("/", async (req, res) => {
+  res.render("ejs/index.ejs");
+});
+app.use("/users", users);
+
+app.use((req, res, next) => {
+  res.sendStatus(404);
+});
+app.listen(3000, () => console.log("server started"));
