@@ -8,7 +8,9 @@
 <body>
     <main>
         <div id="main-container">
-            <div id="img" class="child img"></div>
+            <div id="img" class="child img">
+                <h1 id="welcome-text" class="display-1">Welcome Back</h1>
+            </div>
             <div class="child content">
                 <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation" onclick="updateUrl('signin')">
@@ -41,29 +43,29 @@
 <script>
     var active = '<%= active %>';
     if (active === 'signup') {
-        replace_places(active);
+        replacePlaces(active);
     }
 
     function updateUrl(str) {
         window.history.pushState(str, str.toUpperCase(), str);
-        replace_places(str);
+        replacePlaces(str);
     }
 
-    function replace_places(str) {
+    function replacePlaces(str) {
         var main = document.getElementById('main-container');
         var content = main.querySelector('.content');
         var img = main.querySelector('.img');
+        var welcome = main.querySelector('#welcome-text');
 
-        console.log(str)
-        if (str == "signin") {
+        if (str === "signin") {
+            welcome.textContent = "Welcome Back";
             img.classList.remove('right');
             main.insertBefore(img, content);
         }
         else {
+            welcome.textContent = "Let's Get Started";
             img.classList.add('right');
             main.insertBefore(content, img);
         }
-
-
     }
 </script>
