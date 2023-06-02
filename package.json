@@ -7,19 +7,22 @@
   "author": "Nave-Cohen <nave.cohen@e.braude.ac.il>",
   "license": "MIT",
   "scripts": {
-    "start": "npm run scss & node app.js",
+    "start": "npm run build & npm run scss & node app.js",
     "scss": "node-sass --include-path scss public/css/style.scss public/css/style.css",
-    "dev": "npm run scss & nodemon app.js"
+    "dev": "npm run build & npm run scss & nodemon app.js",
+    "test": "jest --detectOpenHandles",
+    "build": "dotenv -- run-script-os",
+    "build:win32": "mysql -h %DB_HOST% -u %DB_USER% -p%DB_PASS% < %INIT_CWD%/configs/Todo_nodeJs_data.sql",
+    "build:linux": "export MYSQL_PWD=$DB_PASS && mysql -h $DB_HOST -u $DB_USER < $INIT_CWD/configs/Todo_nodeJs_data.sql"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
     "bootstrap": "^5.2.3",
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.1.3",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-mysql-session": "^3.0.0",
     "express-session": "^1.17.3",
-    "iconv-lite": "^0.6.3",
     "mysql2": "^3.3.2",
     "node-sass": "^9.0.0",
     "nodemon": "^2.0.22"
@@ -29,5 +32,10 @@
     "events": {
       "restart": "npm run scss && echo 'Server restarted due to changes'"
     }
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "run-script-os": "^1.1.6",
+    "dotenv-cli": "^7.2.1"
   }
 }
