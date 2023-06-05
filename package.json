@@ -10,13 +10,12 @@
     "start": "npm run build & npm run scss & node app.js",
     "scss": "node-sass --include-path scss public/css/style.scss public/css/style.css",
     "dev": "npm run build & npm run scss & nodemon app.js",
-    "tests": "jest --detectOpenHandles",
+    "tests": "mocha --recursive --reporter spec --exit",
     "build": "dotenv -- run-script-os",
-    "build:win32": "mysql -h %DB_HOST% -u %DB_USER% -p%DB_PASS% < %INIT_CWD%/configs/Todo_nodeJs_data.sql",
-    "build:linux": "export MYSQL_PWD=$DB_PASS && mysql -h $DB_HOST -u $DB_USER < $INIT_CWD/configs/Todo_nodeJs_data.sql"
+    "build:win32": "mysql -h %DB_HOST% -u %DB_USER% -p%DB_PASS% < %INIT_CWD%/configs/init.sql",
+    "build:linux": "export MYSQL_PWD=$DB_PASS && mysql -h $DB_HOST -u $DB_USER < $INIT_CWD/configs/init.sql"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.0",
     "bootstrap": "^5.2.3",
     "dotenv": "^16.1.3",
     "ejs": "^3.1.9",
@@ -28,14 +27,16 @@
     "nodemon": "^2.0.22"
   },
   "nodemonConfig": {
-    "ext": "html,scss,js",
+    "ext": "ejs,scss,js",
     "events": {
       "restart": "npm run scss && echo 'Server restarted due to changes'"
     }
   },
   "devDependencies": {
-    "jest": "^29.5.0",
+    "chai": "^4.3.7",
+    "dotenv-cli": "^7.2.1",
+    "mocha": "^10.2.0",
     "run-script-os": "^1.1.6",
-    "dotenv-cli": "^7.2.1"
+    "supertest": "^6.3.3"
   }
 }
