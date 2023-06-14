@@ -1,0 +1,151 @@
+:root {
+  --sidebar-bg: #7952b3;
+  --sidebar-item-color: white;
+  --sidebar-item-bg: #7952b3;
+  --sidebar-item-bg-hover: #865fc0;
+  --sidebar-menu-bg: #563d7c;
+  --sidebar-menu-color: white;
+  --search-input-bg: white;
+  --search-input-color: black;
+  --search-input-ph-color: rgba(0, 0, 0, 0.26);
+}
+
+.sidebar {
+  position: fixed;
+  width: 20%;
+  height: 100%;
+  background-color: var(--sidebar-bg);
+  z-index: 2;
+  transition: width 0.3s ease;
+  transform: translate3d(0, 0, 0);
+}
+
+.sidebar.close {
+  width: 2.5%;
+}
+
+.sidebar.on-search {
+  width: 30%;
+}
+
+.sidebar.close .badge,
+.sidebar.close #menu-text,
+.sidebar.close #search-item,
+.sidebar.close .item-text {
+  display: none;
+}
+
+.sidebar.close #menu-item {
+  padding: 0;
+  text-align: center;
+  height: 50px;
+}
+
+.sidebar.close #menu-icon {
+  margin: 0 auto;
+}
+
+.sidebar.close .icons {
+  margin: 0 auto;
+}
+
+.item-text {
+  color: white;
+}
+
+#menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--sidebar-menu-bg);
+  color: var(--sidebar-menu-color);
+  height: 80px;
+}
+
+.badge {
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+#menu-icon {
+  font-size: x-large;
+  cursor: pointer;
+}
+
+.icons {
+  font-size: 22px;
+  margin-left: 15px;
+  margin-right: 30px;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  background-color: var(--sidebar-item-bg);
+  color: var(--sidebar-item-color);
+  cursor: pointer;
+}
+.list-item.active {
+  background-color: #66419d;
+}
+.list-item:hover {
+  background-color: var(--sidebar-item-bg-hover);
+}
+
+#search-item {
+  background-color: var(--sidebar-item-bg);
+}
+
+input[type="search"] {
+  background-color: var(--search-input-bg);
+  color: var(--search-input-color);
+}
+
+input[type="search"]::placeholder {
+  color: var(--search-input-ph-color);
+}
+
+input[type="search"]:focus {
+  border-color: transparent;
+}
+
+#logout-item {
+  position: absolute;
+  top: 95%;
+  left: 4%;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+}
+.sidebar.close #logout-item {
+  top: 97%;
+}
+
+.logout-btn {
+  font-size: 22px;
+  color: white;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 1px rgba(109, 34, 248, 0.35);
+}
+
+@media only screen and (max-width: 640px) {
+  .sidebar.close {
+    width: 10%;
+  }
+
+  .sidebar {
+    width: 60%;
+  }
+
+  .sidebar.on-search {
+    width: 80%;
+  }
+  #logout-item {
+    top: 93.5%;
+  }
+  .sidebar.close #logout-item {
+    top: 96%;
+  }
+}

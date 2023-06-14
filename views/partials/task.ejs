@@ -1,4 +1,9 @@
-<div class="accordion-item-<%=task.id%>">
+<div
+  class="accordion-item-<%=task.id%>"
+  data-id="<%= task.id  %>"
+  data-title="<%= task.title %>"
+  data-date="<%= task.createdDate %>"
+>
   <h2 class="accordion-header" id="heading-<%=task.id%>">
     <button
       class="accordion-button collapsed"
@@ -8,7 +13,7 @@
       aria-expanded="false"
       aria-controls="collapse-<%=task.id%>"
     >
-      <%= task.title %>
+      <medium><%= task.title %></medium>
     </button>
   </h2>
   <div
@@ -19,7 +24,7 @@
   >
     <div class="card-<%=task.id%>">
       <div class="card-body">
-        <div class="header mb-2 d-flex justify-content-between">
+        <div class="content mb-2 d-flex justify-content-between">
           <p class="card-text overflow-auto"><%= task.content %></p>
           <div class="dropdown dropdown-menu-start ms-auto">
             <button
@@ -32,9 +37,28 @@
               <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
             <ul
+              style="z-index: 1001"
               class="dropdown-menu"
               aria-labelledby="dropdownMenuLink-<%=task.id%>"
             >
+              <% if (task.done === 1) { %>
+              <li>
+                <button
+                  class="dropdown-item"
+                  onclick="deleteClicked('<%= task.id %>')"
+                >
+                  <i class="fa-sharp fa-solid fa-trash"></i>&nbsp;&nbsp; Delete
+                </button>
+              </li>
+              <% } else { %>
+              <li>
+                <button
+                  class="dropdown-item"
+                  onclick="showModal('<%- task.id %>','<%- task.title %>','<%- task.content %>','<%- task.start %>','<%- task.created %>')"
+                >
+                  <i class="fa-sharp fa-solid fa-edit"></i>&nbsp;&nbsp; Edit
+                </button>
+              </li>
               <li>
                 <button
                   class="dropdown-item"
@@ -51,6 +75,7 @@
                   <i class="fa-sharp fa-solid fa-trash"></i>&nbsp;&nbsp; Delete
                 </button>
               </li>
+              <% } %>
             </ul>
           </div>
         </div>

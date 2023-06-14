@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "decription": "",
   "main": "app.js",
-  "keywords": [],
   "author": "Nave-Cohen <nave.cohen@e.braude.ac.il>",
   "license": "MIT",
   "scripts": {
     "start": "npm run build & npm run scss & node app.js",
     "scss": "node-sass --include-path scss public/css/style.scss public/css/style.css",
-    "dev": "npm run build & npm run scss & nodemon app.js",
+    "dev": "npm run build && npm run scss && nodemon app.js",
+    "lint": "npx eslint .",
     "tests": "mocha --recursive --reporter spec --exit",
     "build": "dotenv -- run-script-os",
     "build:win32": "mysql -h %DB_HOST% -u %DB_USER% -p%DB_PASS% < %INIT_CWD%/configs/init.sql",
@@ -24,19 +24,23 @@
     "express-session": "^1.17.3",
     "mysql2": "^3.3.2",
     "node-sass": "^9.0.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "virtual-scroll": "^2.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "chalk": "^4.1.0",
+    "dotenv-cli": "^7.2.1",
+    "eslint": "^8.42.0",
+    "mocha": "^10.2.0",
+    "prettier": "^2.8.8",
+    "run-script-os": "^1.1.6",
+    "supertest": "^6.3.3"
   },
   "nodemonConfig": {
     "ext": "ejs,scss,js",
     "events": {
-      "restart": "npm run scss && echo 'Server restarted due to changes'"
+      "restart": "echo Server restarted due to changes"
     }
-  },
-  "devDependencies": {
-    "chai": "^4.3.7",
-    "dotenv-cli": "^7.2.1",
-    "mocha": "^10.2.0",
-    "run-script-os": "^1.1.6",
-    "supertest": "^6.3.3"
   }
 }
