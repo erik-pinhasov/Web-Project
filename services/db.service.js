@@ -1,5 +1,7 @@
 const mysql = require('mysql2');
 const db_config = require('../configs/db.config');
+const { Tasks, Task } = require('../entities/task');
+const User = require('../entities/user');
 
 class PoolSingleton {
   constructor() {
@@ -17,17 +19,15 @@ const pool = PoolSingleton.getInstance();
 /* register users */
 async function register(username, email, password) {
   const insertQuery = 'INSERT INTO users (username, email, password) VALUES (?, ?, ?)';
-  const selectQuery = 'SELECT * FROM users WHERE id = LAST_INSERT_ID()';
+  const selectQuery = 'SELECT * FROM users WHERE username = ?';
 
-  await pool
-    .query(insertQuery, [username, email, password])
-    .then(async () => {
-      const [rows] = await pool.query(selectQuery);
-      return rows.length > 0 ? rows[0] : null;
-    })
-    .catch((error) => {
-      return error;
-    });
+  try {
+    await pool.query(insertQuery, [username, email, password]);
+    const [rows] = await pool.query(selectQuery, [username]);
+    return rows.length > 0 ? new User(rows[0]) : null;
+  } catch (error) {
+    return error;
+  }
 }
 
 /* login users */
@@ -39,7 +39,35 @@ async function login(usernameOrEmail, password) {
       password,
     ])
     .then(([rows]) => {
-      return rows.length > 0 ? rows[0] : null;
+      return rows.length > 0 ? new User(rows[0]) : null;
+    })
+    .catch((error) => {
+      return error;
+    });
+}
+async function countTodayTasks(userid) {
+  const today = new Date();
+  const startDateTime = today.toISOString().slice(0, 10) + ' 00:00:00';
+  const endDateTime = today.toISOString().slice(0, 10) + ' 23:59:59';
+  return await pool
+    .query('SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND start >= ? AND start <= ? ', [
+      userid,
+      startDateTime,
+      endDateTime,
+    ])
+    .then(([rows]) => {
+      return rows[0].count;
+    })
+    .catch((error) => {
+      return error;
+    });
+}
+
+async function countUpcomingTasks(userid) {
+  return await pool
+    .query('SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND start >= NOW()', [userid])
+    .then(([rows]) => {
+      return rows[0].count;
     })
     .catch((error) => {
       return error;
@@ -58,7 +86,7 @@ async function getTodayTasks(userid) {
       endDateTime,
     ])
     .then(([rows]) => {
-      return rows.length > 0 ? rows : [];
+      return new Tasks(rows);
     })
     .catch((error) => {
       return error;
@@ -67,9 +95,9 @@ async function getTodayTasks(userid) {
 
 async function getAllTasks(userid) {
   return await pool
-    .query('SELECT * FROM tasks WHERE uid = ? AND done = 0 ORDER BY start ASC', [userid])
+    .query('SELECT * FROM tasks WHERE uid = ? AND start >= NOW() AND done = 0 ORDER BY start ASC', [userid])
     .then(([rows]) => {
-      return rows.length > 0 ? rows : [];
+      return new Tasks(rows);
     })
     .catch((error) => {
       return error;
@@ -80,7 +108,7 @@ async function getDoneTasks(userid) {
   return await pool
     .query('SELECT * FROM tasks WHERE uid = ? AND done = 1 ORDER BY start ASC', [userid])
     .then(([rows]) => {
-      return rows.length > 0 ? rows : [];
+      return new Tasks(rows);
     })
     .catch((error) => {
       return error;
@@ -130,7 +158,7 @@ async function addTask(uid, task) {
   try {
     await pool.query(insertQuery, [uid, task.title, task.content, task.start]);
     const [rows] = await pool.query(selectQuery);
-    return rows.length > 0 ? rows[0] : null;
+    return rows.length > 0 ? new Task(rows[0]) : null;
   } catch (error) {
     return null;
   }
@@ -146,6 +174,8 @@ module.exports = {
   finishTask,
   getTodayTasks,
   getDoneTasks,
+  countTodayTasks,
+  countUpcomingTasks,
   updateTask,
   addTask,
 };
