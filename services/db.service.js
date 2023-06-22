@@ -52,14 +52,19 @@ async function login(usernameOrEmail, password) {
       return error;
     });
 }
-async function countTodayTasks(userid) {
+
+function getToday() {
   const today = new Date();
-  const startDateTime = getNow();
+  const startDateTime = today.toISOString().slice(0, 10) + " 00:00:00";
   const endDateTime = today.toISOString().slice(0, 10) + " 23:59:59";
+  return [startDateTime, endDateTime];
+}
+
+async function countTodayTasks(userid) {
   return await pool
     .query(
       "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND start >= ? AND start <= ? ",
-      [userid, startDateTime, endDateTime]
+      [userid].concat(getToday())
     )
     .then(([rows]) => {
       return rows[0].count;
@@ -70,10 +75,12 @@ async function countTodayTasks(userid) {
 }
 
 async function countUpcomingTasks(userid) {
+  const today = new Date();
+  const startDateTime = today.toISOString().slice(0, 10) + " 00:00:00";
   return await pool
     .query(
-      "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND start >= NOW()",
-      [userid]
+      "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND start >= ?",
+      [userid, startDateTime]
     )
     .then(([rows]) => {
       return rows[0].count;
@@ -84,14 +91,10 @@ async function countUpcomingTasks(userid) {
 }
 
 async function getTodayTasks(userid) {
-  const today = new Date();
-  const startDateTime = getNow();
-  const endDateTime = today.toISOString().slice(0, 10) + " 23:59:59";
-
   return await pool
     .query(
       "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start >= ? AND start <= ? ORDER BY start ASC",
-      [userid, startDateTime, endDateTime]
+      [userid].concat(getToday())
     )
     .then(([rows]) => {
       return new Tasks(rows);
@@ -102,10 +105,12 @@ async function getTodayTasks(userid) {
 }
 
 async function getAllTasks(userid) {
+  const today = new Date();
+  const startDateTime = today.toISOString().slice(0, 10) + " 00:00:00";
   return await pool
     .query(
-      "SELECT * FROM tasks WHERE uid = ? AND start >= NOW() AND done = 0 ORDER BY start ASC",
-      [userid]
+      "SELECT * FROM tasks WHERE uid = ? AND start >= ? AND done = 0 ORDER BY start ASC",
+      [userid, startDateTime]
     )
     .then(([rows]) => {
       return new Tasks(rows);
@@ -121,6 +126,10 @@ async function getDoneTasks(userid) {
       "SELECT * FROM tasks WHERE uid = ? AND done = 1 ORDER BY start ASC",
       [userid]
     )
+    .query(
+      "SELECT * FROM tasks WHERE uid = ? AND done = 1 ORDER BY start ASC",
+      [userid]
+    )
     .then(([rows]) => {
       return new Tasks(rows);
     })
@@ -131,6 +140,7 @@ async function getDoneTasks(userid) {
 
 async function deleteTask(taskid) {
   return await pool
+    .query("DELETE FROM tasks WHERE id = ?", [taskid])
     .query("DELETE FROM tasks WHERE id = ?", [taskid])
     .then(([rows]) => {
       return rows.affectedRows > 0;
@@ -143,6 +153,7 @@ async function deleteTask(taskid) {
 async function finishTask(taskid) {
   return await pool
     .query("UPDATE `tasks` SET `done` = 1 WHERE `id` = ?", [taskid])
+    .query("UPDATE `tasks` SET `done` = 1 WHERE `id` = ?", [taskid])
     .then(([rows]) => {
       return rows.affectedRows > 0;
     })
@@ -152,6 +163,10 @@ async function finishTask(taskid) {
 }
 async function updateTask(task) {
   return await pool
+    .query(
+      "UPDATE `tasks` SET title = ?, content = ? ,start = ? ,created = NOW()  WHERE `id` = ?",
+      [task.title, task.content, task.start, task.id]
+    )
     .query(
       "UPDATE `tasks` SET title = ?, content = ? ,start = ? ,created = NOW()  WHERE `id` = ?",
       [task.title, task.content, task.start, task.id]
@@ -177,19 +192,15 @@ async function addTask(uid, task) {
   }
 }
 
-async function getFirstTask(userid) {
+async function getCurrentTask(userid) {
   const startDateTime = getNow();
   return await pool
     .query(
-      "SELECT * FROM tasks WHERE uid = ? AND start >= ? AND done = 0 ORDER BY start ASC LIMIT 1",
+      "SELECT id,title FROM tasks WHERE uid = ? AND start = ? AND done = 0",
       [userid, startDateTime]
     )
     .then(([rows]) => {
-      if (rows.length > 0) {
-        return new Task(rows[0]);
-      } else {
-        return null; // Return null if no tasks are found
-      }
+      return rows.length > 0 ? rows : null;
     })
     .catch((error) => {
       return error;
@@ -210,5 +221,5 @@ module.exports = {
   countUpcomingTasks,
   updateTask,
   addTask,
-  getFirstTask,
+  getCurrentTask,
 };
