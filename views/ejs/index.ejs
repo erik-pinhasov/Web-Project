@@ -6,10 +6,15 @@
 
   <body>
     <main>
+      <img class="image-logo" src="../../public/images/logo.png" />
       <%- include('../partials/sidebar.ejs',user,today,upcoming)%>
-      <div id="content" class="content" style="height: 100%; width: auto">
-        <h4 id="content-title" class="display-4"></h4>
-        <div class="accordion" id="accordion"><%- tasks %></div>
+      <img
+        class="image-title"
+        src="../../public/images/<%= title %>-tasks.png"
+        alt="<%= title %> Tasks"
+      />
+      <div class="content">
+        <div class="accordion"><%- tasks %></div>
       </div>
       <%- include("../partials/modal.ejs") %>
       <i id="addBtn" class="fa-solid fa-plus" onclick="showModal()"></i>
