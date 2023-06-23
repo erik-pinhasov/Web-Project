@@ -6,19 +6,16 @@ search($items); //Sidebar function.
 
 $("#content-title").text(document.title + " Tasks"); //Change top site label.
 
-const $accordion = $("#accordion");
+$(document).ready(function () {
+  var $accordion = $(".accordion");
+  var $main = $("main");
 
-setInterval(function () {
-  if ($accordion.children().length === 0 && placeholder == false) {
-    $("#content").append(
-      `<h1 id="task-placeholder">There is no tasks to show</h1>`
-    );
-    placeholder = true;
-  } else if ($accordion.children().length > 0 && placeholder == true) {
+  if ($accordion.is(":empty")) {
+    $main.append(`<h1 id="task-placeholder">There are no tasks to show</h1>`);
+  } else {
     $("#task-placeholder").remove();
-    placeholder = false;
   }
-}, 10);
+});
 
 $(document).ready(function () {
   let itemId = $.cookie("scroll");

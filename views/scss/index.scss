@@ -10,24 +10,22 @@ main {
 #addBtn {
   position: fixed;
   top: 92%;
-  left: 96%;
-  z-index: 2;
-  font-size: 25px;
-  padding: 15px 15px;
-  background-color: $primary;
-  color: white;
-  border-radius: 50%;
+  left: 95%;
+  color: $primary;
   cursor: pointer;
   transform: translate3d(0, 0, 0);
-  transition: font-size 0.3s ease;
+  transition: transform 0.3s ease;
+  transform-origin: bottom right;
+}
+#addBtn::before{
+  font-size: 4em;
 }
 #addBtn:hover {
-  font-size: 30px;
+  transform: scale(1.7);
 }
-.content{
-  top: 10px;
-  margin-left: 10%;
-  // width:80%;
+
+.accordion{
+  margin-left: 15%;
 }
 .image-title {
   max-width: 400px;
@@ -63,7 +61,9 @@ main {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
+#task-placeholder {
+  margin: 30px 0 0 300px;
+}
 @media only screen and (max-width: 640px) {
   #task-placeholder {
     left: 55%;

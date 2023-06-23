@@ -134,6 +134,20 @@ async function getDoneTasks(userid) {
     });
 }
 
+async function getIncompleteTasks(userid) {
+  return await pool
+    .query(
+      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start < NOW() ORDER BY start ASC",
+      [userid]
+    )
+    .then(([rows]) => {
+      return new Tasks(rows);
+    })
+    .catch((error) => {
+      return error;
+    });
+}
+
 async function deleteTask(taskid) {
   return await pool
     .query("DELETE FROM tasks WHERE id = ?", [taskid])
@@ -196,7 +210,19 @@ async function getCurrentTask(userid) {
       return error;
     });
 }
-
+async function getIncompletedTasks(userid) {
+  return await pool
+    .query(
+      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start < NOW() ORDER BY start ASC",
+      [userid]
+    )
+    .then(([rows]) => {
+      return new Tasks(rows);
+    })
+    .catch((error) => {
+      return error;
+    });
+}
 //TODO: add task
 module.exports = {
   register,
@@ -207,6 +233,7 @@ module.exports = {
   finishTask,
   getTodayTasks,
   getDoneTasks,
+  getIncompleteTasks,
   countTodayTasks,
   countUpcomingTasks,
   updateTask,

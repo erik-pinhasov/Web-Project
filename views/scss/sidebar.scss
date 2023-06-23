@@ -5,7 +5,7 @@
 .sidebar {
   background-color: $primary;
   position: fixed;
-  width: 15%;
+  max-width: 20%;
   height: 100%;
   z-index: 2;
   transition: width 0.3s ease;
@@ -13,13 +13,13 @@
 }
 
 .sidebar.close {
-  min-width: 70px;
-  max-width: 70px;
+  width: 70px;
 }
-.sidebar.close ~ .content {
+.sidebar.close ~ .accordion {
   margin-left: 0;
-  margin-right: 0; /* Adjust the sidebar width */
-  // width: 85%;
+}
+.sidebar.close ~ #task-placeholder {
+  margin-left: 150px;
 }
 .sidebar.on-search {
   width: 30%;
@@ -28,7 +28,7 @@
 .sidebar.close .badge,
 .sidebar.close #menu-text,
 .sidebar.close #search-item,
-.sidebar.close .item-text {
+.sidebar.close #logout-text{
   display: none;
 }
 
@@ -82,7 +82,6 @@
   cursor: pointer;
 }
 
-
 input[type="search"]::placeholder {
   color: var(--search-input-ph-color);
 }
@@ -94,17 +93,15 @@ input[type="search"]:focus {
 #logout-item {
   position: absolute;
   top: 95%;
-  left: 4%;
   cursor: pointer;
   transform: translate3d(0, 0, 0);
-}
-.sidebar.close #logout-item {
-  top: 97%;
+  padding: 0px;
 }
 
 .logout-btn {
-  font-size: 22px;
+  font-size: 26px;
   color: white;
+  padding: 0 15px;
 }
 
 .form-control:focus {
@@ -116,6 +113,27 @@ input[type="search"]:focus {
   border-radius: 100%;
   font-size: 17px;
   padding: 7px;
+}
+.sidebar.close .list-item{
+  flex-direction: column;
+  font-size: 12px;
+}
+
+.sidebar.close .list-item:hover .icons,
+.sidebar.close .list-item:hover .item-text {
+  animation: shake 1s;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0) rotate(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px) rotate(5deg);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px) rotate(-5deg);
+  }
 }
 
 @media only screen and (max-width: 640px) {
