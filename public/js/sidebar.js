@@ -3,7 +3,7 @@ const $sidebarNext = $sidebar.next();
 const $searchInput = $("#search-input");
 const $menuIcon = $("#menu-icon");
 const $listItems = $(".list-item:not(.user)");
-const $logoutItem = $("#logout-item");
+const $logoutItem = $(".logout-btn");
 const title = document.title.toLowerCase();
 
 getBadges();
@@ -68,7 +68,10 @@ function search(items) {
   $searchInput.on("input", function () {
     var inputValue = $(this).val().toLowerCase();
     items.each(function () {
-      if (!$(this).data("title").toLowerCase().includes(inputValue)) {
+      if (
+        !$(this).data("title").toLowerCase().includes(inputValue) &&
+        !$(this).find(".card-text").text().toLowerCase().includes(inputValue)
+      ) {
         $(this).hide();
       } else {
         $(this).show();

@@ -31,7 +31,9 @@
 .sidebar.close #logout-text{
   display: none;
 }
-
+#logout-text{
+  font-size: 17px;
+}
 .sidebar.close #menu-item {
   padding: 0;
   text-align: center;
@@ -90,15 +92,15 @@ input[type="search"]:focus {
   border-color: transparent;
 }
 
-#logout-item {
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   position: absolute;
   top: 95%;
   cursor: pointer;
   transform: translate3d(0, 0, 0);
-  padding: 0px;
-}
-
-.logout-btn {
   font-size: 26px;
   color: white;
   padding: 0 15px;
@@ -148,10 +150,10 @@ input[type="search"]:focus {
   .sidebar.on-search {
     width: 80%;
   }
-  #logout-item {
+  .logout-btn {
     top: 93.5%;
   }
-  .sidebar.close #logout-item {
+  .sidebar.close .logout-btn {
     top: 96%;
   }
 }
