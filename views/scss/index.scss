@@ -9,32 +9,38 @@ main {
 
 #addBtn {
   position: fixed;
-  top: 92%;
-  left: 96%;
-  z-index: 2;
-  font-size: 25px;
-  padding: 15px 15px;
-  background-color: $primary;
-  color: white;
-  border-radius: 50%;
+  top: 90%;
+  left: 94%;
+  color: $primary;
   cursor: pointer;
   transform: translate3d(0, 0, 0);
-  transition: font-size 0.3s ease;
+  transition: transform 0.3s ease;
+  transform-origin: bottom right;
+}
+#addBtn::before{
+  font-size: 4em;
 }
 #addBtn:hover {
-  font-size: 30px;
+  transform: scale(1.5);
 }
-#content-title {
+
+.accordion{
+  margin-left: 12%;
+}
+.image-title {
+  max-width: 400px;
+  max-height: 70px;
+  position: relative;
+  top: 10px;
+  left: 10%;
   margin-left: 10%;
-  animation: title-enter 1s;
+  animation: title-enter 1.5s;
 }
-#task-placeholder {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  white-space: nowrap;
-  opacity: 0.4;
+.image-logo{
+    position: absolute;
+    max-width: 200px;
+    max-height: 70px;
+    right: 10px;
 }
 /* width */
 ::-webkit-scrollbar {
@@ -55,15 +61,8 @@ main {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
-@media only screen and (max-width: 640px) {
-  #task-placeholder {
-    left: 55%;
-  }
-  #addBtn {
-    top: 90%;
-    left: 85%;
-  }
+#task-placeholder {
+  margin: 30px 0 0 300px;
 }
 @keyframes title-enter {
   from {
@@ -71,5 +70,32 @@ main {
   }
   to {
     transform: translateX(0%);
+  }
+}
+@media only screen and (max-width: 640px) {
+  #addBtn {
+    position: absolute;
+    font-size: 60%;
+    top: 1%;
+    left: 15%;
+  }
+  .image-logo{
+    position: absolute;
+    max-width: 150px;
+  }
+  .image-title {
+    max-width: 300px;
+    margin-top: 50px;
+    margin-left: 15%;
+    animation: title-enter 1.5s;
+  }
+  .accordion{
+    position: relative;
+    left: 10%;
+    width: 95%;
+  }
+  .accordion .footer {
+    display: flex;
+    flex-direction: column;
   }
 }

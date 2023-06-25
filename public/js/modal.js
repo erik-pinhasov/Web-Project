@@ -22,7 +22,7 @@ function addTask(task, response) {
     const accordionItems = document.querySelectorAll(
       "[class*='accordion-item-']"
     );
-    const accordion = $("#accordion");
+    const accordion = $(".accordion");
     let inserted = false;
 
     for (const item of accordionItems) {

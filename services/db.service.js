@@ -23,6 +23,14 @@ function getNow() {
   return now.toISOString().slice(0, 16);
 }
 
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 to the month since it is zero-based
+  const day = String(today.getDate());
+  return `${year}-${month}-${day}`;
+}
+
 /* register users */
 async function register(username, email, password) {
   const insertQuery =
@@ -53,18 +61,12 @@ async function login(usernameOrEmail, password) {
     });
 }
 
-function getToday() {
-  const today = new Date();
-  const startDateTime = today.toISOString().slice(0, 10) + " 00:00:00";
-  const endDateTime = today.toISOString().slice(0, 10) + " 23:59:59";
-  return [startDateTime, endDateTime];
-}
-
 async function countTodayTasks(userid) {
+  const today = getTodayDate();
   return await pool
     .query(
-      "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND start >= ? AND start <= ? ",
-      [userid].concat(getToday())
+      "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ",
+      [userid, today]
     )
     .then(([rows]) => {
       return rows[0].count;
@@ -75,8 +77,8 @@ async function countTodayTasks(userid) {
 }
 
 async function countUpcomingTasks(userid) {
-  const today = new Date();
-  const startDateTime = today.toISOString().slice(0, 10) + " 00:00:00";
+  const today = getTodayDate();
+  const startDateTime = today + " 00:00:00";
   return await pool
     .query(
       "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND start >= ?",
@@ -91,10 +93,11 @@ async function countUpcomingTasks(userid) {
 }
 
 async function getTodayTasks(userid) {
+  const today = getTodayDate();
   return await pool
     .query(
-      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start >= ? AND start <= ? ORDER BY start ASC",
-      [userid].concat(getToday())
+      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ORDER BY start ASC",
+      [userid, today]
     )
     .then(([rows]) => {
       return new Tasks(rows);
@@ -105,8 +108,8 @@ async function getTodayTasks(userid) {
 }
 
 async function getAllTasks(userid) {
-  const today = new Date();
-  const startDateTime = today.toISOString().slice(0, 10) + " 00:00:00";
+  const today = getTodayDate();
+  const startDateTime = today + " 00:00:00";
   return await pool
     .query(
       "SELECT * FROM tasks WHERE uid = ? AND start >= ? AND done = 0 ORDER BY start ASC",
@@ -124,6 +127,20 @@ async function getDoneTasks(userid) {
   return await pool
     .query(
       "SELECT * FROM tasks WHERE uid = ? AND done = 1 ORDER BY start ASC",
+      [userid]
+    )
+    .then(([rows]) => {
+      return new Tasks(rows);
+    })
+    .catch((error) => {
+      return error;
+    });
+}
+
+async function getIncompleteTasks(userid) {
+  return await pool
+    .query(
+      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start < NOW() ORDER BY start ASC",
       [userid]
     )
     .then(([rows]) => {
@@ -182,6 +199,20 @@ async function addTask(uid, task) {
   }
 }
 
+async function editProfile(task) {
+  return await pool
+    .query(
+      "UPDATE `users` SET username = ?, email = ? ,password = ? WHERE `id` = ?",
+      [task.username, task.email, task.password, task.id]
+    )
+    .then(([rows]) => {
+      return rows.affectedRows > 0;
+    })
+    .catch((error) => {
+      throw Error(error);
+    });
+}
+
 async function getCurrentTask(userid) {
   const startDateTime = getNow();
   return await pool
@@ -207,9 +238,11 @@ module.exports = {
   finishTask,
   getTodayTasks,
   getDoneTasks,
+  getIncompleteTasks,
   countTodayTasks,
   countUpcomingTasks,
   updateTask,
   addTask,
+  editProfile,
   getCurrentTask,
 };

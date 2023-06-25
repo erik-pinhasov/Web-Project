@@ -4,9 +4,9 @@
       <h2 id="menu-text">Menu</h2>
       <i id="menu-icon" class="fa-solid fa-bars"></i>
     </li>
-    <li class="list-item user list-group-item">
+    <li class="user-item" onclick="showUserModal('<%= user.id %>')">
       <i id="user-icon" class="icons fa-solid"><%= user.letter%></i>
-      <medium id="user-name" class="item-text"><%= user.name %></medium>
+      <medium id="user-text" style="color: white"><%= user.name%></medium>
     </li>
     <li id="search-item" class="list-group-item">
       <input
@@ -14,7 +14,7 @@
         class="form-control"
         autocomplete="off"
         id="search-input"
-        placeholder="Search task"
+        placeholder="Search task in page"
       />
     </li>
     <li class="list-item list-group-item list-group-item-action">
@@ -32,12 +32,15 @@
       >
     </li>
     <li class="list-item list-group-item list-group-item-action">
+      <i class="icons fa-solid fa-calendar-xmark"></i>
+      <medium class="item-text">Incomplete</medium>
+    </li>
+    <li class="list-item list-group-item list-group-item-action">
       <i class="icons fa-solid fa-list-check"></i>
       <medium class="item-text">Completed</medium>
     </li>
   </ul>
-  <div id="logout-item" class="list-group-item d-flex flex-column">
-    <i class="logout-btn fa-solid fa-right-from-bracket mx-2"></i>
-    <small class="item-text mx-2">Log out</small>
-  </div>
+  <i class="logout-btn fa-solid fa-right-from-bracket">
+    <medium id="logout-text">Log out</medium>
+  </i>
 </div>

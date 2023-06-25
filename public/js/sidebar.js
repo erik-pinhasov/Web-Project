@@ -3,7 +3,7 @@ const $sidebarNext = $sidebar.next();
 const $searchInput = $("#search-input");
 const $menuIcon = $("#menu-icon");
 const $listItems = $(".list-item:not(.user)");
-const $logoutItem = $("#logout-item");
+const $logoutItem = $(".logout-btn");
 const title = document.title.toLowerCase();
 
 getBadges();
@@ -17,19 +17,19 @@ $(".item-text").each(function () {
   }
 });
 
-let previousWidth = $sidebar.outerWidth();
-$sidebarNext.css("margin-left", previousWidth + "px");
+// let previousWidth = $sidebar.outerWidth();
+// $sidebarNext.css("margin-left", previousWidth + "px");
 
-if (!window.matchMedia("(max-width: 640px)").matches) {
-  // On desktop
-  setInterval(function () {
-    const currentWidth = $sidebar.outerWidth();
-    if (currentWidth !== previousWidth) {
-      $sidebarNext.css("margin-left", currentWidth + "px");
-    }
-    previousWidth = currentWidth;
-  }, 5);
-}
+// if (!window.matchMedia("(max-width: 640px)").matches) {
+//   // On desktop
+//   setInterval(function () {
+//     const currentWidth = $sidebar.outerWidth();
+//     if (currentWidth !== previousWidth) {
+//       $sidebarNext.css("margin-left", currentWidth + "px");
+//     }
+//     previousWidth = currentWidth;
+//   }, 5);
+// }
 
 $searchInput.on("focus", function () {
   $sidebar.addClass("on-search");
@@ -68,7 +68,10 @@ function search(items) {
   $searchInput.on("input", function () {
     var inputValue = $(this).val().toLowerCase();
     items.each(function () {
-      if (!$(this).data("title").toLowerCase().includes(inputValue)) {
+      if (
+        !$(this).data("title").toLowerCase().includes(inputValue) &&
+        !$(this).find(".card-text").text().toLowerCase().includes(inputValue)
+      ) {
         $(this).hide();
       } else {
         $(this).show();

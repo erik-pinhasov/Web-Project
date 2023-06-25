@@ -30,6 +30,12 @@ router.get("/today", async function (req, res) {
   renderIndex(req, res, req.session.user, html, req.url.split("/").slice(-1));
 });
 
+router.get("/incomplete", async function (req, res) {
+  var doneTasks = await dbService.getIncompleteTasks(req.session.user.id);
+  var html = await doneTasks.toHtml();
+  renderIndex(req, res, req.session.user, html, req.url.split("/").slice(-1));
+});
+
 router.get("/completed", async function (req, res) {
   var doneTasks = await dbService.getDoneTasks(req.session.user.id);
   var html = await doneTasks.toHtml();
