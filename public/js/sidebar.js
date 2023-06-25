@@ -17,19 +17,19 @@ $(".item-text").each(function () {
   }
 });
 
-let previousWidth = $sidebar.outerWidth();
-$sidebarNext.css("margin-left", previousWidth + "px");
+// let previousWidth = $sidebar.outerWidth();
+// $sidebarNext.css("margin-left", previousWidth + "px");
 
-if (!window.matchMedia("(max-width: 640px)").matches) {
-  // On desktop
-  setInterval(function () {
-    const currentWidth = $sidebar.outerWidth();
-    if (currentWidth !== previousWidth) {
-      $sidebarNext.css("margin-left", currentWidth + "px");
-    }
-    previousWidth = currentWidth;
-  }, 5);
-}
+// if (!window.matchMedia("(max-width: 640px)").matches) {
+//   // On desktop
+//   setInterval(function () {
+//     const currentWidth = $sidebar.outerWidth();
+//     if (currentWidth !== previousWidth) {
+//       $sidebarNext.css("margin-left", currentWidth + "px");
+//     }
+//     previousWidth = currentWidth;
+//   }, 5);
+// }
 
 $searchInput.on("focus", function () {
   $sidebar.addClass("on-search");

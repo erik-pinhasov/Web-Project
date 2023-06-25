@@ -1,0 +1,49 @@
+<div
+  class="modal"
+  id="userModal"
+  tabindex="-1"
+  aria-labelledby="ModalLabel"
+  aria-hidden="true"
+>
+<div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-user">Edit Profile</h5>
+        <button
+          id="close-user-modal-btn"
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <label for="username" class="form-label">User name:</label>
+        <textarea class="form-control" id="username"><%= user.name %></textarea>
+        <label for="email" class="form-label">Email:</label>
+        <textarea class="form-control" id="email"><%= user.email %></textarea>
+        <label for="password" class="form-label">Password:</label>
+        <textarea class="form-control" id="password"></textarea>
+        <label for="rep-password" class="form-label">Repeat password:</label>
+        <textarea class="form-control" id="rep-password"></textarea>
+      </div>
+      <div class="modal-footer justify-content-start">
+        <div
+          id="alert-user-msg"
+          class="alert alert-danger d-none"
+          style="width: 100%; padding: 5px"
+          role="alert"
+        ></div>
+        <div
+          class="btn-footer d-flex justify-content-between align-items-center"
+          style="width: 100%"
+        >
+          <button id="submit-btn" type="button" class="btn btn-primary">
+            Submit
+          </button>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

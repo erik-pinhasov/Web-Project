@@ -25,7 +25,9 @@ button:focus:not(:focus-visible),
 button:focus-visible {
   z-index: 3;
 }
-
+.dropdown-menu.show{
+  display: flex;
+}
 .card-text {
   max-height: 150px;
   margin: 5px 10px;
