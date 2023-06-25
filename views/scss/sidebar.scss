@@ -5,7 +5,7 @@
 .sidebar {
   background-color: $primary;
   position: fixed;
-  max-width: 20%;
+  max-width: 80%;
   height: 100%;
   z-index: 2;
   transition: width 0.3s ease;
@@ -24,6 +24,10 @@
 }
 .sidebar.on-search {
   width: 30%;
+}
+.sidebar.on-search ~ .accordion,
+.sidebar.on-search ~ .image-title{
+  margin-left: 30%;
 }
 
 .sidebar.close .badge,
@@ -167,4 +171,5 @@ input[type="search"]:focus {
     font-size: 24px;
     margin-left: 50px;
   }
+  
 }
