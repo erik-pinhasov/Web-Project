@@ -7,7 +7,7 @@ search($items); //Sidebar function.
 $("#content-title").text(document.title + " Tasks"); //Change top site label.
 $("#img-title").attr(
   "src",
-  "../../public/images/" + document.title + "-tasks.png"
+  "../../public/images/" + document.title.toLowerCase() + "-tasks.png"
 );
 
 $(document).ready(function () {
