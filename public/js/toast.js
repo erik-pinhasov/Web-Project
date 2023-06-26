@@ -26,10 +26,10 @@ function createToast(id, title) {
 }
 
 function getClosetTask() {
-  $.get(
-    "/tasks/closet",
+  $.post(
+    "/tasks/now",
     function (response) {
-      if (response) {
+      if (response.length > 0) {
         toastTask(response);
       }
     },

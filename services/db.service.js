@@ -246,7 +246,7 @@ async function getCurrentTask(userid) {
       [userid, startDateTime]
     )
     .then(([rows]) => {
-      return rows.length > 0 ? rows : null;
+      return rows;
     })
     .catch((error) => {
       return error;
