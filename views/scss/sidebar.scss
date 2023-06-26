@@ -23,6 +23,7 @@
   margin-left: 10%;
 }
 .sidebar.on-search {
+  transition: width 1s ease;
   width: 30%;
 }
 .sidebar.on-search ~ .accordion,
