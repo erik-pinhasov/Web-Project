@@ -31,6 +31,14 @@ function getTodayDate() {
   return `${year}-${month}-${day}`;
 }
 
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 to the month since it is zero-based
+  const day = String(today.getDate());
+  return `${year}-${month}-${day}`;
+}
+
 /* register users */
 async function register(username, email, password) {
   const insertQuery =
@@ -151,6 +159,20 @@ async function getIncompleteTasks(userid) {
     });
 }
 
+async function getIncompleteTasks(userid) {
+  return await pool
+    .query(
+      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start < NOW() ORDER BY start ASC",
+      [userid]
+    )
+    .then(([rows]) => {
+      return new Tasks(rows);
+    })
+    .catch((error) => {
+      return error;
+    });
+}
+
 async function deleteTask(taskid) {
   return await pool
     .query("DELETE FROM tasks WHERE id = ?", [taskid])
@@ -198,21 +220,24 @@ async function addTask(uid, task) {
     return null;
   }
 }
-
 async function editProfile(task) {
-  return await pool
-    .query(
-      "UPDATE `users` SET username = ?, email = ? ,password = ? WHERE `id` = ?",
-      [task.username, task.email, task.password, task.id]
-    )
-    .then(([rows]) => {
-      return rows.affectedRows > 0;
-    })
-    .catch((error) => {
-      throw Error(error);
-    });
+  let query;
+  let params;
+  if (task.password) {
+    query =
+      "UPDATE `users` SET username = ?, email = ?, password = ? WHERE `id` = ?";
+    params = [task.username, task.email, task.password, task.id];
+  } else {
+    query = "UPDATE `users` SET username = ?, email = ? WHERE `id` = ?";
+    params = [task.username, task.email, task.id];
+  }
+  try {
+    const [rows] = await pool.query(query, params);
+    return rows.affectedRows > 0;
+  } catch (error) {
+    throw new Error(error);
+  }
 }
-
 async function getCurrentTask(userid) {
   const startDateTime = getNow();
   return await pool
@@ -239,10 +264,12 @@ module.exports = {
   getTodayTasks,
   getDoneTasks,
   getIncompleteTasks,
+  getIncompleteTasks,
   countTodayTasks,
   countUpcomingTasks,
   updateTask,
   addTask,
+  editProfile,
   editProfile,
   getCurrentTask,
 };
