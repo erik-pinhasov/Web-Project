@@ -89,12 +89,11 @@ router.get("/updateBadge", async function (req, res) {
   res.send({ upcoming: upcomingNum, today: todayNum });
 });
 
-router.get("/closet", async function (req, res) {
+router.post("/now", async function (req, res) {
   const uid = req.session.user.id;
-  const closetTask = await dbService.getCurrentTask(uid);
-  if (closetTask) {
-    res.send(closetTask);
-  } else res.send(null);
+  const startTime = req.body.time;
+  const closetTask = await dbService.getCurrentTask(uid, startTime);
+  res.send(closetTask);
 });
 
 function packTask(body) {
