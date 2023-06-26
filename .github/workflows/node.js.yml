@@ -15,10 +15,10 @@ jobs:
   build-node:
     runs-on: ubuntu-latest
     env:
-      DB_HOST: ${{ secrets.DB_HOST }}
-      DB_PASS: ${{ secrets.DB_PASS }}
-      DB_USER: ${{ secrets.DB_USER }}
-      DB_DATABASE: ${{ secrets.DB_DATABASE }}
+      MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       JWTTOKEN: ${{ secrets.JWTTOKEN }}
 
     steps:
@@ -36,10 +36,11 @@ jobs:
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
-
+      - name: build db
+        run: |
+          export MYSQL_PWD=${{ env.MYSQL_PASSWORD }}
+          mysql -h ${{ env.MYSQL_HOST }} -u ${{ env.MYSQL_USER }} < $GITHUB_WORKSPACE/configs/init.sql
       - name: Run scss
         run: npm run scss
-      - name: Run build
-        run: npm run build
       - name: Run tests
         run: npm run tests

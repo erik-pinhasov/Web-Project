@@ -31,6 +31,14 @@ function getTodayDate() {
   return `${year}-${month}-${day}`;
 }
 
+function getTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 to the month since it is zero-based
+  const day = String(today.getDate());
+  return `${year}-${month}-${day}`;
+}
+
 /* register users */
 async function register(username, email, password) {
   const insertQuery =
@@ -63,8 +71,11 @@ async function login(usernameOrEmail, password) {
 
 async function countTodayTasks(userid) {
   const today = getTodayDate();
+  const today = getTodayDate();
   return await pool
     .query(
+      "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ",
+      [userid, today]
       "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ",
       [userid, today]
     )
@@ -77,6 +88,8 @@ async function countTodayTasks(userid) {
 }
 
 async function countUpcomingTasks(userid) {
+  const today = getTodayDate();
+  const startDateTime = today + " 00:00:00";
   const today = getTodayDate();
   const startDateTime = today + " 00:00:00";
   return await pool
@@ -94,8 +107,11 @@ async function countUpcomingTasks(userid) {
 
 async function getTodayTasks(userid) {
   const today = getTodayDate();
+  const today = getTodayDate();
   return await pool
     .query(
+      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ORDER BY start ASC",
+      [userid, today]
       "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ORDER BY start ASC",
       [userid, today]
     )
@@ -108,6 +124,8 @@ async function getTodayTasks(userid) {
 }
 
 async function getAllTasks(userid) {
+  const today = getTodayDate();
+  const startDateTime = today + " 00:00:00";
   const today = getTodayDate();
   const startDateTime = today + " 00:00:00";
   return await pool
@@ -127,6 +145,20 @@ async function getDoneTasks(userid) {
   return await pool
     .query(
       "SELECT * FROM tasks WHERE uid = ? AND done = 1 ORDER BY start ASC",
+      [userid]
+    )
+    .then(([rows]) => {
+      return new Tasks(rows);
+    })
+    .catch((error) => {
+      return error;
+    });
+}
+
+async function getIncompleteTasks(userid) {
+  return await pool
+    .query(
+      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start < NOW() ORDER BY start ASC",
       [userid]
     )
     .then(([rows]) => {
@@ -242,10 +274,12 @@ module.exports = {
   getTodayTasks,
   getDoneTasks,
   getIncompleteTasks,
+  getIncompleteTasks,
   countTodayTasks,
   countUpcomingTasks,
   updateTask,
   addTask,
+  editProfile,
   editProfile,
   getCurrentTask,
 };
