@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MYSQL_HOST: ${{ secrets.MYSQL_HOST }}
-      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD	 }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
       MYSQL_USER: ${{ secrets.MYSQL_USER }}
       MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
       JWTTOKEN: ${{ secrets.JWTTOKEN }}
