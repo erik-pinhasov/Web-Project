@@ -16,21 +16,6 @@ class PoolSingleton {
 
 const pool = PoolSingleton.getInstance();
 
-function getNow() {
-  const today = new Date();
-  const tzOffset = today.getTimezoneOffset() * 60000;
-  const now = new Date(today - tzOffset);
-  return now.toISOString().slice(0, 16);
-}
-
-function getTodayDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 to the month since it is zero-based
-  const day = String(today.getDate());
-  return `${year}-${month}-${day}`;
-}
-
 function getTodayDate() {
   const today = new Date();
   const year = today.getFullYear();
@@ -159,20 +144,6 @@ async function getIncompleteTasks(userid) {
     });
 }
 
-async function getIncompleteTasks(userid) {
-  return await pool
-    .query(
-      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start < NOW() ORDER BY start ASC",
-      [userid]
-    )
-    .then(([rows]) => {
-      return new Tasks(rows);
-    })
-    .catch((error) => {
-      return error;
-    });
-}
-
 async function deleteTask(taskid) {
   return await pool
     .query("DELETE FROM tasks WHERE id = ?", [taskid])
@@ -238,8 +209,8 @@ async function editProfile(task) {
     throw new Error(error);
   }
 }
-async function getCurrentTask(userid) {
-  const startDateTime = getNow();
+
+async function getCurrentTask(userid, startDateTime) {
   return await pool
     .query(
       "SELECT id,title FROM tasks WHERE uid = ? AND start = ? AND done = 0",
@@ -264,12 +235,10 @@ module.exports = {
   getTodayTasks,
   getDoneTasks,
   getIncompleteTasks,
-  getIncompleteTasks,
   countTodayTasks,
   countUpcomingTasks,
   updateTask,
   addTask,
-  editProfile,
   editProfile,
   getCurrentTask,
 };
