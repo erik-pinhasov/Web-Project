@@ -20,7 +20,7 @@
   margin-left: 0;
 }
 .sidebar.close ~ #task-placeholder {
-  margin-left: 150px;
+  margin-left: 10%;
 }
 .sidebar.on-search {
   width: 30%;
@@ -29,11 +29,13 @@
 .sidebar.on-search ~ .image-title{
   margin-left: 30%;
 }
+.sidebar.on-search ~ #task-placeholder{
+  margin-left: 40%;
+}
 
 .sidebar.close .badge,
 .sidebar.close #menu-text,
 .sidebar.close #search-item,
-.sidebar.close #logout-text{
 .sidebar.close #logout-text{
   display: none;
 }
@@ -87,7 +89,6 @@
 }
 
 .list-item , .user-item {
-.list-item , .user-item {
   display: flex;
   align-items: center;
   padding: 15px 0;
@@ -107,7 +108,7 @@ input[type="search"]:focus {
   display: flex;
   align-items: center;
   gap: 15px;
-
+}
 .logout-btn {
   display: flex;
   align-items: center;
@@ -198,28 +199,26 @@ input[type="search"]:focus {
     transition: width 0.3s ease;
     transform: translate3d(0, 0, 0);
   }
-  .sidebar.close .item-text{
-    display: none;
-  }
+
   .sidebar.on-search {
     width: 85%;
-    width: 85%;
   }
+
   .sidebar.close .logout-btn {
     top: 95%;
-  .sidebar.close .logout-btn {
-    top: 95%;
   }
-  .sidebar ~ .accordion,
-  .sidebar ~ .image-title {
-    margin-left: 0;
-  .sidebar ~ .accordion,
-  .sidebar ~ .image-title {
-    margin-left: 0;
+
+  #task-placeholder{
+    font-size: 22px;
   }
-  .sidebar.close ~ #task-placeholder {
-    font-size: 24px;
-    margin-left: 50px;
+
+  .sidebar.close ~ .image-title,
+  .sidebar.on-search ~ .image-title{
+    margin-left: 10%;
   }
-  
+
+  .sidebar.close ~ #task-placeholder,
+  .sidebar.on-search ~ #task-placeholder{
+    margin-left: 15%;
+  }
 }

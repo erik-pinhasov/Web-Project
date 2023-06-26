@@ -71,11 +71,8 @@ async function login(usernameOrEmail, password) {
 
 async function countTodayTasks(userid) {
   const today = getTodayDate();
-  const today = getTodayDate();
   return await pool
     .query(
-      "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ",
-      [userid, today]
       "SELECT COUNT(*) as count FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ",
       [userid, today]
     )
@@ -88,8 +85,6 @@ async function countTodayTasks(userid) {
 }
 
 async function countUpcomingTasks(userid) {
-  const today = getTodayDate();
-  const startDateTime = today + " 00:00:00";
   const today = getTodayDate();
   const startDateTime = today + " 00:00:00";
   return await pool
@@ -107,11 +102,8 @@ async function countUpcomingTasks(userid) {
 
 async function getTodayTasks(userid) {
   const today = getTodayDate();
-  const today = getTodayDate();
   return await pool
     .query(
-      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ORDER BY start ASC",
-      [userid, today]
       "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND DATE(start) = ? ORDER BY start ASC",
       [userid, today]
     )
@@ -124,8 +116,6 @@ async function getTodayTasks(userid) {
 }
 
 async function getAllTasks(userid) {
-  const today = getTodayDate();
-  const startDateTime = today + " 00:00:00";
   const today = getTodayDate();
   const startDateTime = today + " 00:00:00";
   return await pool
