@@ -14,7 +14,7 @@ $("#img-title").attr(
 $(document).ready(function () {
   setInterval(function () {
     if ($accordion.children().length === 0 && placeholder == false) {
-      $("#content").append(
+      $("main").append(
         `<h1 id="task-placeholder">There is no tasks to show</h1>`
       );
       placeholder = true;
