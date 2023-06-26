@@ -44,12 +44,18 @@ function getBadges() {
 
   let todayBadge = parseInt(todayBadgeElement.text(), 10);
   let upcomingBadge = parseInt(upcomingBadgeElement.text(), 10);
-  if (cookie) {
-    todayBadge++;
-    upcomingBadge++;
-  } else {
-    todayBadge--;
-    upcomingBadge--;
+  if ($.cookie("badges")) {
+    if (cookie) {
+      todayBadge++;
+      upcomingBadge++;
+    } else {
+      todayBadge--;
+      upcomingBadge--;
+    }
+    todayBadgeElement.text(todayBadge);
+    upcomingBadgeElement.text(upcomingBadge);
+    $.removeCookie("badges");
+
   }
   todayBadgeElement.text(todayBadge);
   upcomingBadgeElement.text(upcomingBadge);
@@ -57,7 +63,7 @@ function getBadges() {
   $.removeCookie("badges");
 }
 
-setInterval(getBadges, 1000);
+setInterval(getBadges, 500);
 
 // eslint-disable-next-line no-unused-vars
 function search(items) {
