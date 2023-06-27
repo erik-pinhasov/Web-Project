@@ -38,15 +38,32 @@ $listItems.on("click", function () {
   window.location.href = "/tasks/" + url;
 });
 function getBadges() {
+  const cookie = $.cookie("badges") === "true";
+  const todayBadgeElement = $("#today-badge");
+  const upcomingBadgeElement = $("#upcoming-badge");
+
+  let todayBadge = parseInt(todayBadgeElement.text(), 10);
+  let upcomingBadge = parseInt(upcomingBadgeElement.text(), 10);
   if ($.cookie("badges")) {
+    if (cookie) {
+      todayBadge++;
+      upcomingBadge++;
+    } else {
+      todayBadge--;
+      upcomingBadge--;
+    }
+    todayBadgeElement.text(todayBadge);
+    upcomingBadgeElement.text(upcomingBadge);
     $.removeCookie("badges");
-    var todayBadge = parseInt($("#today-badge").text());
-    var upcomingBadge = parseInt($("#upcoming-badge").text());
-    $("#today-badge").text(todayBadge + 1);
-    $("#upcoming-badge").text(upcomingBadge + 1);
+
   }
+  todayBadgeElement.text(todayBadge);
+  upcomingBadgeElement.text(upcomingBadge);
+
+  $.removeCookie("badges");
 }
-setInterval(getBadges, 1000);
+
+setInterval(getBadges, 500);
 
 // eslint-disable-next-line no-unused-vars
 function search(items) {
