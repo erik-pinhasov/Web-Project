@@ -35,7 +35,7 @@ async function register(username, email, password) {
     const [rows] = await pool.query(selectQuery, [username]);
     return rows.length > 0 ? new User(rows[0]) : null;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -50,7 +50,7 @@ async function login(usernameOrEmail, password) {
       return rows.length > 0 ? new User(rows[0]) : null;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -65,7 +65,7 @@ async function countTodayTasks(userid) {
       return rows[0].count;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -81,7 +81,7 @@ async function countUpcomingTasks(userid) {
       return rows[0].count;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -96,7 +96,7 @@ async function getTodayTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -112,7 +112,7 @@ async function getAllTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -126,7 +126,7 @@ async function getDoneTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -140,7 +140,7 @@ async function getIncompleteTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -151,7 +151,7 @@ async function deleteTask(taskid) {
       return rows.affectedRows > 0;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -162,7 +162,7 @@ async function finishTask(taskid) {
       return rows.affectedRows > 0;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 async function updateTask(task) {
@@ -220,7 +220,7 @@ async function getCurrentTask(userid, startDateTime) {
       return rows;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
