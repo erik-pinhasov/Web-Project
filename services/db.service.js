@@ -16,21 +16,6 @@ class PoolSingleton {
 
 const pool = PoolSingleton.getInstance();
 
-function getNow() {
-  const today = new Date();
-  const tzOffset = today.getTimezoneOffset() * 60000;
-  const now = new Date(today - tzOffset);
-  return now.toISOString().slice(0, 16);
-}
-
-function getTodayDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // Adding 1 to the month since it is zero-based
-  const day = String(today.getDate());
-  return `${year}-${month}-${day}`;
-}
-
 function getTodayDate() {
   const today = new Date();
   const year = today.getFullYear();
@@ -50,7 +35,7 @@ async function register(username, email, password) {
     const [rows] = await pool.query(selectQuery, [username]);
     return rows.length > 0 ? new User(rows[0]) : null;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
@@ -65,7 +50,7 @@ async function login(usernameOrEmail, password) {
       return rows.length > 0 ? new User(rows[0]) : null;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -80,7 +65,7 @@ async function countTodayTasks(userid) {
       return rows[0].count;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -96,7 +81,7 @@ async function countUpcomingTasks(userid) {
       return rows[0].count;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -111,7 +96,7 @@ async function getTodayTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -127,7 +112,7 @@ async function getAllTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -141,7 +126,7 @@ async function getDoneTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -155,7 +140,7 @@ async function getIncompleteTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -169,7 +154,7 @@ async function getIncompleteTasks(userid) {
       return new Tasks(rows);
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -180,7 +165,7 @@ async function deleteTask(taskid) {
       return rows.affectedRows > 0;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 
@@ -191,7 +176,7 @@ async function finishTask(taskid) {
       return rows.affectedRows > 0;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 async function updateTask(task) {
@@ -238,8 +223,8 @@ async function editProfile(task) {
     throw new Error(error);
   }
 }
-async function getCurrentTask(userid) {
-  const startDateTime = getNow();
+
+async function getCurrentTask(userid, startDateTime) {
   return await pool
     .query(
       "SELECT id,title FROM tasks WHERE uid = ? AND start = ? AND done = 0",
@@ -249,7 +234,7 @@ async function getCurrentTask(userid) {
       return rows;
     })
     .catch((error) => {
-      return error;
+      throw error;
     });
 }
 

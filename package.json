@@ -10,7 +10,11 @@
     "scss": "node-sass --include-path scss views/scss/style.scss  -o public/css",
     "dev": "npm run scss & nodemon app.js",
     "lint": "npx eslint .",
-    "test": "mocha --recursive --reporter spec --exit"
+    "test": "mocha --recursive --reporter spec --exit",
+    "build-db": "node configs/buildDB.config.js"
+  },
+  "repository": {
+    "url": "https://github.com/Nave-Cohen/Web-Project.git"
   },
   "dependencies": {
     "bootstrap": "^5.2.3",
@@ -29,7 +33,6 @@
     "eslint": "^8.42.0",
     "mocha": "^10.2.0",
     "prettier": "^2.8.8",
-    "run-script-os": "^1.1.6",
     "supertest": "^6.3.3"
   },
   "nodemonConfig": {

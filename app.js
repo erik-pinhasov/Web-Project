@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/public", express.static(`${__dirname}/public`));
 
 app.get("/", jwt, async (req, res) => {
-  res.redirect("tasks/today");
+  res.redirect("tasks/Today");
 });
 app.use("/users", users);
 
@@ -26,8 +26,8 @@ app.use((req, res) => {
 });
 
 if (process.env.npm_lifecycle_event != "test") {
-  app.listen(8080, () => {
-    console.log("listening on port 8080");
+  app.listen(3000, () => {
+    console.log("listening on port 3000");
   });
 }
 module.exports.app = app;
