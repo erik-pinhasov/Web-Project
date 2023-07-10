@@ -36,7 +36,7 @@ async function register(username, email, password) {
     const [rows] = await pool.query(selectQuery, [username]);
     return rows.length > 0 ? new User(rows[0]) : null;
   } catch (error) {
-    throw error;
+    return error;
   }
 }
 
@@ -51,7 +51,7 @@ async function login(usernameOrEmail, password) {
       return rows.length > 0 ? new User(rows[0]) : null;
     })
     .catch((error) => {
-      throw error;
+      return error;
     });
 }
 
