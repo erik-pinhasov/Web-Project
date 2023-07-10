@@ -40,7 +40,7 @@ describe("db.services - register", () => {
       "newpassword"
     );
     expect(result.message).equal(
-      "Duplicate entry 'testuser' for key 'users.username_UNIQUE'"
+      "Duplicate entry 'testuser' for key 'users.username'"
     );
   });
 
@@ -53,7 +53,7 @@ describe("db.services - register", () => {
       "newpassword"
     );
     expect(result.message).equal(
-      "Duplicate entry 'testuser@test.com' for key 'users.email_UNIQUE'"
+      "Duplicate entry 'testuser@test.com' for key 'users.email'"
     );
   });
 
