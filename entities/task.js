@@ -1,10 +1,14 @@
+// Represents the Task entity in the app
+
 const ejs = require("ejs");
 const path = require("path");
-// eslint-disable-next-line no-undef
+
+// Path to the EJS partial file for rendering tasks
 const ejsPath = path.join(__dirname, "..", "views/partials/task.ejs");
 
 class Task {
   constructor(task) {
+    // Initialize task properties
     this.id = task.id;
     this.title = task.title;
     this.content = task.content;
@@ -29,6 +33,7 @@ class Task {
   }
 
   getCreated() {
+    // Calculate when task created
     const today = new Date();
     const date = new Date(this.createdDate);
     const timeDiff = Math.floor((today - date) / 1000);
@@ -54,7 +59,9 @@ class Task {
 
     return "Just now";
   }
+
   convertToMysqlDateTime(dateStr) {
+    // Convert JavaScript date string to MySQL datetime format
     const date = new Date(dateStr);
     const year = date.getFullYear().toString().slice(-2);
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -78,10 +85,12 @@ class Task {
 
 class Tasks {
   constructor(tasks) {
+    // Convert each task object to a Task instance
     this.tasks = tasks.map((task) => new Task(task));
   }
 
   async toHtml() {
+    // Render all tasks as HTML
     const htmlArray = await Promise.all(
       this.tasks.map(async (task) => {
         return await task.toHtml();

@@ -4,6 +4,7 @@ const { Tasks, Task } = require("../entities/task");
 const User = require("../entities/user");
 
 class PoolSingleton {
+  // Create MySQL instance
   constructor() {
     this.pool = mysql.createPool(db_config.options).promise();
   }
@@ -24,7 +25,7 @@ function getTodayDate() {
   return `${year}-${month}-${day}`;
 }
 
-/* register users */
+// Insert user details after registeration
 async function register(username, email, password) {
   const insertQuery =
     "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
@@ -39,7 +40,7 @@ async function register(username, email, password) {
   }
 }
 
-/* login users */
+// Get user details after login
 async function login(usernameOrEmail, password) {
   return await pool
     .query(
@@ -54,6 +55,7 @@ async function login(usernameOrEmail, password) {
     });
 }
 
+// Count number of open today tasks
 async function countTodayTasks(userid) {
   const today = getTodayDate();
   return await pool
@@ -69,6 +71,7 @@ async function countTodayTasks(userid) {
     });
 }
 
+// Count number of open upcoming tasks
 async function countUpcomingTasks(userid) {
   const today = getTodayDate();
   const startDateTime = today + " 00:00:00";
@@ -85,6 +88,7 @@ async function countUpcomingTasks(userid) {
     });
 }
 
+// Get all open today tasks
 async function getTodayTasks(userid) {
   const today = getTodayDate();
   return await pool
@@ -100,6 +104,7 @@ async function getTodayTasks(userid) {
     });
 }
 
+// Get all open upcoming tasks
 async function getAllTasks(userid) {
   const today = getTodayDate();
   const startDateTime = today + " 00:00:00";
@@ -116,6 +121,7 @@ async function getAllTasks(userid) {
     });
 }
 
+// Get all closed tasks
 async function getDoneTasks(userid) {
   return await pool
     .query(
@@ -130,20 +136,7 @@ async function getDoneTasks(userid) {
     });
 }
 
-async function getIncompleteTasks(userid) {
-  return await pool
-    .query(
-      "SELECT * FROM tasks WHERE uid = ? AND done = 0 AND start < NOW() ORDER BY start ASC",
-      [userid]
-    )
-    .then(([rows]) => {
-      return new Tasks(rows);
-    })
-    .catch((error) => {
-      throw error;
-    });
-}
-
+// Get all open tasks their date is passed
 async function getIncompleteTasks(userid) {
   return await pool
     .query(
@@ -179,6 +172,8 @@ async function finishTask(taskid) {
       throw error;
     });
 }
+
+// Update existing task details
 async function updateTask(task) {
   return await pool
     .query(
@@ -192,6 +187,8 @@ async function updateTask(task) {
       throw Error(error);
     });
 }
+
+// Insert a new task
 async function addTask(uid, task) {
   const insertQuery =
     "INSERT INTO `tasks` (uid, title, content, start, created, done) VALUES (?, ?, ?, ?, NOW(), 0)";
@@ -205,6 +202,8 @@ async function addTask(uid, task) {
     return null;
   }
 }
+
+// Update user details
 async function editProfile(task) {
   let query;
   let params;
@@ -224,6 +223,7 @@ async function editProfile(task) {
   }
 }
 
+// Get a task by start time
 async function getCurrentTask(userid, startDateTime) {
   return await pool
     .query(

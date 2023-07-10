@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 const $items = $("[class*='accordion-item-']");
 let placeholder = false;
 var $accordion = $(".accordion");
-// eslint-disable-next-line no-undef
-search($items); //Sidebar function.
+search($items); // Sidebar function.
 
+// Checks every 10 milliseconds if there are tasks to show
 $(document).ready(function () {
   setInterval(function () {
     if ($accordion.children().length === 0 && placeholder == false) {
@@ -19,6 +18,7 @@ $(document).ready(function () {
   }, 10);
 });
 
+// ??
 $(document).ready(function () {
   let itemId = $.cookie("scroll");
   if (itemId) {

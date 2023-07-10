@@ -2,12 +2,15 @@ const { Router } = require("express"),
   dbService = require("../services/db.service"),
   router = Router();
 
+// Fetch and store count of upcoming and today's tasks in the session
 router.use(async function (req, res, next) {
   const id = req.session.user.id;
   req.session.upcoming = await dbService.countUpcomingTasks(id);
   req.session.today = await dbService.countTodayTasks(id);
   next();
 });
+
+// Render index page with the provided data
 async function renderIndex(req, res, user, html, title) {
   res.render("../views/ejs/index.ejs", {
     tasks: html,
@@ -17,6 +20,8 @@ async function renderIndex(req, res, user, html, title) {
     upcoming: req.session.upcoming,
   });
 }
+
+// Route handlers for getting tasks: today, upcoming, incompleted and completed
 
 router.get("/upcoming", async function (req, res) {
   var upcomingTasks = await dbService.getAllTasks(req.session.user.id);
@@ -42,6 +47,7 @@ router.get("/completed", async function (req, res) {
   renderIndex(req, res, req.session.user, html, req.url.split("/").slice(-1));
 });
 
+// Route handler for marking a task as done
 router.post("/done", async function (req, res) {
   try {
     await dbService.finishTask(req.body.id);
@@ -51,6 +57,7 @@ router.post("/done", async function (req, res) {
   }
 });
 
+// Route handler for deleting a task
 router.delete("/delete", async function (req, res) {
   try {
     await dbService.deleteTask(req.body.id);
@@ -60,6 +67,7 @@ router.delete("/delete", async function (req, res) {
   }
 });
 
+// Route handler for updating a task
 router.post("/update", async function (req, res) {
   const task = packTask(req.body);
   try {
@@ -70,6 +78,7 @@ router.post("/update", async function (req, res) {
   }
 });
 
+// Route handler for adding a new task
 router.post("/add", async function (req, res) {
   const request = packTask(req.body);
 
@@ -82,6 +91,7 @@ router.post("/add", async function (req, res) {
   }
 });
 
+// Updating the badge count
 router.get("/updateBadge", async function (req, res) {
   const uid = req.session.user.id;
   const upcomingNum = await dbService.countUpcomingTasks(uid);
@@ -89,6 +99,7 @@ router.get("/updateBadge", async function (req, res) {
   res.send({ upcoming: upcomingNum, today: todayNum });
 });
 
+// Getting a task by start time
 router.post("/now", async function (req, res) {
   const uid = req.session.user.id;
   const startTime = req.body.time;
@@ -96,6 +107,7 @@ router.post("/now", async function (req, res) {
   res.send(closetTask);
 });
 
+// Pack the task data into a JSON object
 function packTask(body) {
   return {
     id: body.id,

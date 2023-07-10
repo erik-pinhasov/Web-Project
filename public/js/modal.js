@@ -1,4 +1,5 @@
-/* eslint-disable no-undef */
+// Bootstrap modal for adding/editing a new task
+
 let id;
 const $title = $("#task-title");
 const $content = $("#task-content");
@@ -8,6 +9,7 @@ const $datetimepicker = $("#datetimepicker");
 const $modal = $("#Modal");
 let minDateTime;
 
+// Update task with new input
 function updateTask(task) {
   const $task = $(`.accordion-item-${task.id}`);
   $task.find("#title").text(task.title);
@@ -15,6 +17,8 @@ function updateTask(task) {
   $task.find("#created").text(task.created);
   $task.find("#start").text("start - " + task.start.replace("T", " "));
 }
+
+// Add a new task
 function addTask(task, response) {
   const currentHref = location.href.toLowerCase();
   if (!currentHref.includes("completed")) {
@@ -26,6 +30,7 @@ function addTask(task, response) {
     let inserted = false;
 
     for (const item of accordionItems) {
+      // Place task in right place (sorted by date)
       const compareDate = new Date($("#start", item).text().slice(7));
       if (taskDate < compareDate) {
         $(item).before(response);
@@ -40,6 +45,7 @@ function addTask(task, response) {
   }
 }
 
+// Update the task by sending post request
 function updateRequest(task) {
   $.post(
     "/tasks/update",
@@ -54,6 +60,7 @@ function updateRequest(task) {
   $modal.hide();
 }
 
+// Add new task by sending post request
 function addReqest(task) {
   $.post(
     "/tasks/add",
@@ -68,6 +75,7 @@ function addReqest(task) {
   $modal.hide();
 }
 
+// Get the minimum date and time (from current date and time) for the datetime picker
 function getMinDate() {
   const now = new Date();
   const tzOffset = now.getTimezoneOffset() * 60000;
@@ -81,6 +89,7 @@ function setStart() {
   $datetimepicker.val(minDateTime);
 }
 
+// Validate the modal input fields
 function validateModal() {
   const selectedDateTime = new Date($datetimepicker.val());
   const minDateTimeObj = new Date(getMinDate());
@@ -101,6 +110,7 @@ function validateModal() {
   return true;
 }
 
+// Pack the task data into a JSON object
 function packTask() {
   return {
     id,
@@ -110,7 +120,8 @@ function packTask() {
     created: $created.text(),
   };
 }
-// eslint-disable-next-line no-unused-vars
+
+// Show modal with task data
 function showModal(_id = -1, title = "", content = "", created = "") {
   id = _id;
   $title.val(title);
@@ -127,10 +138,12 @@ function showModal(_id = -1, title = "", content = "", created = "") {
     .show();
 }
 
+// Hide modal when close button is clicked
 $("#close-modal-btn").click(function () {
   $modal.hide();
 });
 
+// Update or add when the submit button is clicked
 $("#sbmt-btn").click(function () {
   if (!validateModal()) {
     $alertMsg.removeClass("d-none");
