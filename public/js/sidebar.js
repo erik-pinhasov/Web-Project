@@ -1,3 +1,5 @@
+// App sidebar
+
 const $sidebar = $(".sidebar");
 const $searchInput = $("#search-input");
 const $menuIcon = $("#menu-icon");
@@ -7,6 +9,7 @@ const title = document.title.toLowerCase();
 
 getBadges();
 
+// Highlight icon active for selected page
 $(".item-text").each(function () {
   var text = $(this).text().toLowerCase();
   if (text.includes(title)) {
@@ -16,6 +19,7 @@ $(".item-text").each(function () {
   }
 });
 
+// Clicked on search
 $searchInput.on("focus", function () {
   $sidebar.addClass("on-search");
 });
@@ -24,19 +28,24 @@ $searchInput.on("focusout", function () {
   $sidebar.removeClass("on-search");
 });
 
+// Open/Close menu bar
 $menuIcon.on("click", function () {
   $sidebar.toggleClass("close");
   $menuIcon.toggleClass("fa-xmark fa-bars");
 });
 
+// Logout button - redirect to logout
 $logoutItem.on("click", function () {
   window.location.href = "/users/logout";
 });
 
+// Redirect to selected tasks page
 $listItems.on("click", function () {
   const url = $(this).find("medium").text();
   window.location.href = "/tasks/" + url;
 });
+
+// Update tasks count for today and upcoming tasks and place it in propper badge
 function getBadges() {
   const cookie = $.cookie("badges") === "true";
   const todayBadgeElement = $("#today-badge");
@@ -55,7 +64,6 @@ function getBadges() {
     todayBadgeElement.text(todayBadge);
     upcomingBadgeElement.text(upcomingBadge);
     $.removeCookie("badges");
-
   }
   todayBadgeElement.text(todayBadge);
   upcomingBadgeElement.text(upcomingBadge);
@@ -65,7 +73,7 @@ function getBadges() {
 
 setInterval(getBadges, 500);
 
-// eslint-disable-next-line no-unused-vars
+// Search tasks by title or content
 function search(items) {
   $searchInput.on("input", function () {
     var inputValue = $(this).val().toLowerCase();

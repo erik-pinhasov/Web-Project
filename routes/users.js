@@ -2,6 +2,7 @@ const { Router } = require("express"),
   dbService = require("../services/db.service"),
   router = Router();
 
+// Check if a user is already authenticated
 router.use("/:query", (req, res, next) => {
   if (
     req.session.user &&
@@ -13,11 +14,13 @@ router.use("/:query", (req, res, next) => {
     next();
   }
 });
-//render login
+
+// Render login
 router.get("/signin", function (req, res) {
   renderSignTabs(res, "signin", "signup");
 });
 
+// Handle user signin
 router.post("/signin", async function (req, res) {
   var user = await dbService.login(req.body.username, req.body.password);
   if (user) {
@@ -31,11 +34,12 @@ router.post("/signin", async function (req, res) {
   }
 });
 
-//render register
+// Render register
 router.get("/signup", function (req, res) {
   renderSignTabs(res, "signup", "signin");
 });
 
+// Handle user registration
 router.post("/signup", async function (req, res) {
   var user = await dbService.register(
     req.body.username,
@@ -52,6 +56,7 @@ router.post("/signup", async function (req, res) {
   }
 });
 
+// Switch between signin and register tabs
 function renderSignTabs(res, activeTab, inactiveTab) {
   res.render(`ejs/sign-tabs.ejs`, {
     title: "Sign-" + activeTab.slice(4),
@@ -60,6 +65,7 @@ function renderSignTabs(res, activeTab, inactiveTab) {
   });
 }
 
+// Handle user profile edit
 router.post("/profile", async function (req, res) {
   var user = await dbService.editProfile(req.body);
   if (user) {
@@ -72,7 +78,7 @@ router.post("/profile", async function (req, res) {
   }
 });
 
-//render logout
+// Render logout
 router.get("/logout", function (req, res) {
   res.clearCookie("connect.sid");
   req.session.destroy();

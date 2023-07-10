@@ -1,4 +1,5 @@
-/* eslint-disable no-unused-vars */
+// Post request for finish an active task
+// On success the task will move to Completed tasks page
 function doneClicked(taskid) {
   fetch("/tasks/done", {
     method: "POST",
@@ -20,6 +21,8 @@ function doneClicked(taskid) {
     });
 }
 
+// Post request for delete a task
+// On success the task will be removed
 function deleteClicked(taskid) {
   fetch("/tasks/delete", {
     method: "DELETE",

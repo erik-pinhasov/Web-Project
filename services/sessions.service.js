@@ -1,3 +1,6 @@
+// Sets up and exports a middleware function for managing sessions
+// Manage and store session data in a MySQL database
+
 const sessions = require("express-session");
 const mysqlStore = require("express-mysql-session")(sessions);
 const { pool } = require("./db.service");

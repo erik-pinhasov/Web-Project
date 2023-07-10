@@ -1,5 +1,8 @@
+// Bootstrap modal for editing user details
+
 let userId;
 
+// Reset the modal inputs
 function resetModal() {
   $("#password").val("");
   $("#repeatPassword").val("");
@@ -8,6 +11,7 @@ function resetModal() {
   $("#alert-user-msg").addClass("d-none");
 }
 
+// Show modal with user details
 function showUserModal(id) {
   userId = id;
   resetModal();
@@ -19,6 +23,7 @@ function showUserModal(id) {
     .modal("show");
 }
 
+// Show/hide password change option when clicking the radio button
 $(document).ready(function () {
   $("#changePasswordCheckbox").change(function () {
     if ($(this).is(":checked")) {
@@ -29,6 +34,7 @@ $(document).ready(function () {
   });
 });
 
+// Validate the modal input fields
 function validateForm(formData) {
   const { username, email, password, repPassword } = formData;
 
@@ -65,12 +71,14 @@ function validateForm(formData) {
   return true;
 }
 
+// Place a message in the modal when error occurs
 function showMsg(message) {
   $("#alert-user-msg").text(message).removeClass("d-none");
 }
 
 $("#close-user-modal-btn").click(resetModal());
 
+// Update user details by sending post request
 function updateProfile(user) {
   $.post(
     "/users/profile",
@@ -88,6 +96,7 @@ function updateProfile(user) {
   }, 1000);
 }
 
+// Message color is green when editing success, otherwise changes to red
 function showMsg(message, isSuccess) {
   const alertElement = $("#alert-user-msg");
   if (isSuccess) {
@@ -100,6 +109,7 @@ function showMsg(message, isSuccess) {
   alertElement.text(message).removeClass("d-none");
 }
 
+// Submiting user details change
 $("#submit-btn").on("click", function () {
   const userData = {
     id: parseInt(userId),

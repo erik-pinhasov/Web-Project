@@ -1,5 +1,8 @@
+// Represents the User entity in the app
+
 class User {
   constructor(user) {
+    // Initialize user properties
     this.id = user.id;
     this.name = user.username;
     this.email = user.email;
