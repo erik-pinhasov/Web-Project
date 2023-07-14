@@ -1,5 +1,7 @@
 // Bootstrap modal for adding/editing a new task
 
+// Bootstrap modal for adding/editing a new task
+
 let id;
 const $title = $("#task-title");
 const $content = $("#task-content");
@@ -9,6 +11,7 @@ const $datetimepicker = $("#datetimepicker");
 const $modal = $("#Modal");
 let minDateTime;
 
+// Update task with new input
 // Update task with new input
 function updateTask(task) {
   const $task = $(`.accordion-item-${task.id}`);
@@ -56,6 +59,7 @@ function addTask(task, response) {
 }
 
 // Update the task by sending post request
+// Update the task by sending post request
 function updateRequest(task) {
   $.post(
     "/tasks/update",
@@ -70,6 +74,7 @@ function updateRequest(task) {
   $modal.hide();
 }
 
+// Add new task by sending post request
 // Add new task by sending post request
 function addReqest(task) {
   $.post(
@@ -86,6 +91,7 @@ function addReqest(task) {
 }
 
 // Get the minimum date and time (from current date and time) for the datetime picker
+// Get the minimum date and time (from current date and time) for the datetime picker
 function getMinDate() {
   const now = new Date();
   const tzOffset = now.getTimezoneOffset() * 60000;
@@ -99,6 +105,7 @@ function setStart() {
   $datetimepicker.val(minDateTime);
 }
 
+// Validate the modal input fields
 // Validate the modal input fields
 function validateModal() {
   const selectedDateTime = new Date($datetimepicker.val());
@@ -121,6 +128,7 @@ function validateModal() {
 }
 
 // Pack the task data into a JSON object
+// Pack the task data into a JSON object
 function packTask() {
   return {
     id,
@@ -130,6 +138,8 @@ function packTask() {
     created: $created.text(),
   };
 }
+
+// Show modal with task data
 
 // Show modal with task data
 function showModal(_id = -1, title = "", content = "", created = "") {
@@ -149,10 +159,12 @@ function showModal(_id = -1, title = "", content = "", created = "") {
 }
 
 // Hide modal when close button is clicked
+// Hide modal when close button is clicked
 $("#close-modal-btn").click(function () {
   $modal.hide();
 });
 
+// Update or add when the submit button is clicked
 // Update or add when the submit button is clicked
 $("#sbmt-btn").click(function () {
   if (!validateModal()) {
