@@ -19,25 +19,35 @@ function updateTask(task) {
 }
 
 // Add a new task
+// Place task immediately in right place (sorted by date and time)
 function addTask(task, response) {
   const currentHref = location.href.toLowerCase();
-  if (!currentHref.includes("completed")) {
-    const taskDate = new Date(task.start);
+  const taskDate = new Date(task.start);
+
+  if (
+    currentHref.includes("upcoming") ||
+    (currentHref.includes("today") &&
+      taskDate.toDateString() === new Date().toDateString())
+  ) {
     const accordionItems = document.querySelectorAll(
       "[class*='accordion-item-']"
     );
     const accordion = $(".accordion");
     let inserted = false;
 
-    for (const item of accordionItems) {
-      // Place task in right place (sorted by date)
-      const compareDate = new Date($("#start", item).text().slice(7));
-      if (taskDate < compareDate) {
+    accordionItems.forEach((item) => {
+      // Compare added task date and time with other tasks on page
+      const startDateElement = item.querySelector("#start");
+      const startDateText = startDateElement.textContent.split(" - ")[1].trim();
+      const [day, month, year, time] = startDateText.split(/[/ ]/);
+      const [hours, minutes] = time.split(":");
+      const compareDate = new Date("20" + year, month - 1, day, hours, minutes);
+      if (taskDate.getTime() < compareDate.getTime()) {
         $(item).before(response);
         inserted = true;
-        break;
+        return false;
       }
-    }
+    });
 
     if (!inserted) {
       accordion.append(response);
@@ -154,6 +164,6 @@ $("#sbmt-btn").click(function () {
     updateRequest(task);
   } else {
     addReqest(task);
-    $.cookie("badges", "true");
+    $.cookie("badges", "true|" + task.start);
   }
 });
