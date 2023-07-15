@@ -99,7 +99,7 @@ router.get("/updateBadge", async function (req, res) {
   res.send({ upcoming: upcomingNum, today: todayNum });
 });
 
-// Getting a task by start time
+// Getting a task by start time (for notification)
 router.post("/now", async function (req, res) {
   const uid = req.session.user.id;
   const startTime = req.body.time;

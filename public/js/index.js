@@ -18,7 +18,7 @@ $(document).ready(function () {
   }, 10);
 });
 
-// ??
+// On notification alert - save task as cookie (to open it when clicking notification)
 $(document).ready(function () {
   let itemId = $.cookie("scroll");
   if (itemId) {

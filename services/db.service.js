@@ -223,7 +223,7 @@ async function editProfile(task) {
   }
 }
 
-// Get a task by start time
+// Get a task by start time (for notification)
 async function getCurrentTask(userid, startDateTime) {
   return await pool
     .query(

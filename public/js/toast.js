@@ -1,3 +1,6 @@
+// Bootstrap toast notification
+// Pushing notification for tasks that it start time is current time
+
 let $toastContainer = $(".toast-container");
 
 function createToast(id, title) {
@@ -24,12 +27,16 @@ function createToast(id, title) {
   >${title}</div>
 </div>`;
 }
+
+// Get current time
 function getNow() {
   const now = new Date();
   const tzOffset = now.getTimezoneOffset() * 60000;
   const minDateTimeObj = new Date(now - tzOffset);
   return { time: minDateTimeObj.toISOString().slice(0, 16) };
 }
+
+// Get task with current time
 function getClosetTask() {
   $.post(
     "/tasks/now",
@@ -43,12 +50,12 @@ function getClosetTask() {
   );
 }
 
+// Creates bootstrap toast
 function toastTask(response) {
   $toastContainer.empty();
   response.forEach((item, i) => {
     let toast = createToast(item.id, item.title);
     $toastContainer.append(toast);
-    // eslint-disable-next-line no-undef
     let toastBootstrap = new bootstrap.Toast($(".toast")[i]);
     toastBootstrap.show();
   });
@@ -62,7 +69,7 @@ function scrollTo(element) {
   }, 500);
 }
 
-// eslint-disable-next-line no-unused-vars
+// Moving to selected task (after clicking the notification)
 function toastClicked(id, _toastElem) {
   let href = window.location.href.toLowerCase();
   if (!href.includes("today") && !href.includes("upcoming")) {

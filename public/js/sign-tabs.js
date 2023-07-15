@@ -1,9 +1,9 @@
-// eslint-disable-next-line no-unused-vars
 function updateUrl(str) {
   window.history.pushState(str, str.toUpperCase(), str);
   replacePlaces(str);
 }
 
+// Moving from signin/signup tabs (left/right)
 function replacePlaces(str) {
   var main = document.getElementById("main-container");
   var content = main.querySelector(".content");
@@ -21,11 +21,13 @@ function replacePlaces(str) {
   }
   $(".alert").addClass("d-none");
 }
+
 function showError(message) {
   $(".alert").text(`${message}`);
   $(".alert").removeClass("d-none");
 }
-// eslint-disable-next-line no-unused-vars
+
+// Validate password matching
 function validateForm() {
   var result =
     $("#PasswordInputSignup").val() === $("#RePasswordInputSignup").val();
@@ -34,6 +36,9 @@ function validateForm() {
   }
   return result;
 }
+
+// On login - send Post for signin with the credentials
+// On success - move to root url, else show error on alert
 $("#signin-form").submit(function (event) {
   event.preventDefault();
   $.post("/users/signin", $(this).serialize(), function () {
@@ -44,6 +49,8 @@ $("#signin-form").submit(function (event) {
   });
 });
 
+// On registration - send Post for signup with the credentials
+// On success - move to root url, else show error on alert
 $("#signup-form").submit(function (event) {
   event.preventDefault();
   if (!validateForm()) return;
