@@ -79,7 +79,5 @@ $("#signup-form").submit(function (event) {
   }).fail(function () {
     showError("Username/email allready existed.");
     return;
-    showError("Username/email allready existed.");
-    return;
   });
 });
