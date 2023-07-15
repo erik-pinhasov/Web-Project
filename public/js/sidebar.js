@@ -60,12 +60,6 @@ function getBadges() {
 
   let todayBadge = parseInt(todayBadgeElement.text(), 10);
   let upcomingBadge = parseInt(upcomingBadgeElement.text(), 10);
-  console.log(
-    taskDate,
-    taskDate.getDate() === new Date().getDate(),
-    taskDate.getDate(),
-    new Date().getDate()
-  );
   if (cookie === "true") {
     if (taskDate.getDate() === new Date().getDate()) {
       todayBadge++;
@@ -92,7 +86,6 @@ function getBadges() {
   }
   todayBadgeElement.text(todayBadge);
   upcomingBadgeElement.text(upcomingBadge);
-
   $.removeCookie("badges");
 }
 
