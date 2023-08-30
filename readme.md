@@ -8,7 +8,11 @@
 
 To deploy the project using Docker, follow these steps:
 
-1. Create a new file named `.env` in the `Web-Project` folder with the following content:
+1. Clone project:
+  ```
+  git clone https://github.com/erik-pinhasov/Web-Project.git
+  ```
+2. Create a new file named `.env` in the `Web-Project` folder with the following content:
   ```
   MYSQL_USER=root
   MYSQL_PASSWORD="your password"
@@ -17,10 +21,9 @@ To deploy the project using Docker, follow these steps:
   ```
 Replace `"your password"` with your actual MySQL root password.
 
-3. Open a terminal and navigate to the `Web-Project` folder:
+2. Open a terminal and run this docker command from root directory:
 
 ```sh
-cd Web-Project
 docker compose -f "Web-Project\docker-compose.yml" up -d --build
 ```
 
@@ -29,7 +32,7 @@ docker compose -f "Web-Project\docker-compose.yml" up -d --build
 ### clone & Install dependencies
 
 ```sh
-git clone https://github.com/Nave-Cohen/Web-Project.git
+git clone https://github.com/erik-pinhasov/Web-Project.git
 cd Web-Project
 npm install
 ```
