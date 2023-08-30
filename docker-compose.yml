@@ -1,0 +1,37 @@
+version: '3'
+services:
+
+  database:
+    container_name: mysql
+    image: mysql:latest
+    restart: unless-stopped
+    command: --default-authentication-plugin=caching_sha2_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=Erik1515
+      - MYSQL_ALLOW_EMPTY_PASSWORD=no
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 40s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - ./db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    container_name: app 
+    image: webproject
+    depends_on:
+      database:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - MYSQL_HOST=database
+    ports:
+      - 3000:3000
+
+volumes:
+  db:
