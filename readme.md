@@ -12,6 +12,7 @@ To deploy the project using Docker, follow these steps:
   ```
   git clone https://github.com/erik-pinhasov/Web-Project.git
   ```
+
 2. Create a new file named `.env` in the `Web-Project` folder with the following content:
   ```
   MYSQL_USER=root
@@ -27,6 +28,8 @@ Replace `"your password"` with your actual MySQL root password.
 docker compose -f "Web-Project\docker-compose.yml" up -d --build
 ```
 
+4. Open browser and navigate to Localhost:3000 for using the app.
+   
 ## Deploy localy:
 
 ### clone & Install dependencies
