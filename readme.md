@@ -20,6 +20,7 @@ Replace `"your password"` with your actual MySQL root password.
 ```sh
 cd Web-Project
 docker compose -f "Web-Project\docker-compose.yml" up -d --build
+```
 
 ## Deploy localy:
 
