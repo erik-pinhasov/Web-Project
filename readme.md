@@ -4,6 +4,43 @@
   </a>
 </div>
 
+## Functional Requirements
+
+The system should provide the following functional features:
+
+1. **User Registration**
+2. **User Login**
+3. **Profile Editing**: Ability to modify Username, Email, and Password.
+4. **User Logout**
+5. **Mobile Device Compatibility**
+6. **Task Display**:
+   - Tasks for the current day.
+   - Future tasks.
+   - Completed tasks.
+   - Incomplete tasks.
+   - Tasks are sorted chronologically by date and start time.
+   - Each task will show the time since its creation.
+   - Task titles are visible on every page; clicking will expand the content.
+7. **Add New Task**: Creating a task by specifying title, content, date, and start time.
+8. **Delete Task**
+9. **Edit Task**: Modifying title, content, date, and start time.
+10. **Task Completion**:
+   - Changes from requirements 7-10 will instantly update the page (without requiring a refresh).
+   - Clicking to complete a task will move it to the completed tasks page.
+   - In the completed tasks page, only deletion will be possible.
+11. **Reminder Alerts**: Notifications will appear when a task's start time is reached.
+   - Clicking the alert will navigate to the corresponding task and display it.
+12. **Task Search**: Ability to search for tasks by title or content.
+13. **Side Menu** with:
+    - User's username (clicking opens the option to edit the profile).
+    - Search bar.
+    - Today's tasks, future tasks, completed tasks, and incomplete tasks (clicking navigates to the respective page).
+    - Count of open tasks for today and future tasks (visible when the menu is open).
+    - Logout button.
+    - The menu expands and collapses upon clicking.
+
+Please refer to the other sections of this README for deployment and usage instructions.
+
 ## Deploy with Docker :rocket:
 
 To deploy the project using Docker, follow these steps:
