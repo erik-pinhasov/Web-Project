@@ -21,7 +21,7 @@ To deploy the project using Docker, follow these steps:
   ```
 Replace `"your password"` with your actual MySQL root password.
 
-2. Open a terminal and run this docker command from root directory:
+3. Open a terminal and run this docker command from root directory:
 
 ```sh
 docker compose -f "Web-Project\docker-compose.yml" up -d --build
