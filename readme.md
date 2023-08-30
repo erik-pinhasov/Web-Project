@@ -9,13 +9,15 @@
 To deploy the project using Docker, follow these steps:
 
 1. Create a new file named `.env` in the `Web-Project` folder with the following content:
+  ```
   MYSQL_USER=root
   MYSQL_PASSWORD="your password"
   MYSQL_DATABASE=todo_app
   JWTTOKEN=$2b$10$G0jjD12VLBAr9bWmjkXNyu
+  ```
 Replace `"your password"` with your actual MySQL root password.
 
-2. Open a terminal and navigate to the `Web-Project` folder:
+3. Open a terminal and navigate to the `Web-Project` folder:
 
 ```sh
 cd Web-Project
